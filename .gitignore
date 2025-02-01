@@ -1,3 +1,7 @@
+# -------------------------------
+# Kotlin / Spring Boot (Gradle)
+# -------------------------------
+
 # Compiled class file
 *.class
 
@@ -25,3 +29,73 @@ replay_pid*
 
 # Kotlin Gradle plugin data, see https://kotlinlang.org/docs/whatsnew20.html#new-directory-for-kotlin-data-in-gradle-projects
 .kotlin/
+
+# -------------------------------
+# Gradle build directories
+# -------------------------------
+
+# Gradle specific files
+/build/
+.gradle/
+.out/
+
+# -------------------------------
+# Gradle Wrapper files (include these in version control)
+# -------------------------------
+
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+!gradlew
+!gradlew.bat
+
+# -------------------------------
+# IDE / Editor Files
+# -------------------------------
+
+# IntelliJ IDEA files
+.idea/
+*.iws
+*.ipr
+*.iml
+
+# Eclipse project files
+.project
+.classpath
+.settings/
+
+# Visual Studio Code
+.vscode/
+
+# -------------------------------
+# Python (Recommendation System)
+# -------------------------------
+
+# Byte-compiled files and optimized files
+__pycache__/
+*.py[cod]
+
+# SQLite database files and Jupyter checkpoints
+*.sqlite
+.ipynb_checkpoints
+
+# Virtual environment directories
+.env
+venv/
+env/
+
+# Log files
+*.log
+
+# -------------------------------
+# Frontend (for later, for Node.js / React)
+# -------------------------------
+
+# Node modules and build output (for potential frontend)
+node_modules/
+.next/
+out/
+
+# Debug and lock files
+npm-debug.log
+yarn.lock
+package-lock.json
