@@ -38,3 +38,8 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+# Ignore application properties
+**/application.properties
+**/application*.properties
+
