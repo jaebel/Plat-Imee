@@ -1,11 +1,11 @@
 package com.platimee.spring_platimee.service
 
 import com.platimee.spring_platimee.expections.UserAlreadyExistsException
-import org.springframework.stereotype.Service
 import com.platimee.spring_platimee.model.User
 import com.platimee.spring_platimee.repository.UserRepository
-import org.springframework.transaction.annotation.Transactional
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CreateUserService(private val userRepository: UserRepository) {
