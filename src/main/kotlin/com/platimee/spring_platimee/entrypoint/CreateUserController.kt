@@ -1,6 +1,7 @@
 package com.platimee.spring_platimee.entrypoint
 
-import com.platimee.spring_platimee.model.User
+import com.platimee.spring_platimee.model.UserCreateDTO
+import com.platimee.spring_platimee.model.UserResponseDTO
 import com.platimee.spring_platimee.service.CreateUserService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -8,7 +9,6 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -19,12 +19,8 @@ class CreateUserController(private val createUserService: CreateUserService) {
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    @ResponseStatus(HttpStatus.CREATED) // remove this?
-    fun createUserAccount(@Valid @RequestBody user: User): ResponseEntity<User> {
-        val savedUser = createUserService.addUser(user)
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser)
+    fun createUserAccount(@Valid @RequestBody userCreateDto: UserCreateDTO): ResponseEntity<UserResponseDTO> {
+        val savedUserDto = createUserService.addUser(userCreateDto)
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUserDto)
     }
 }
-
-// STILL WORK ON THIS FILE
-// I left off looking into api models vs normal models for user @(you can see entityapi and entity in souvineerUpdated

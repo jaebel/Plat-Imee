@@ -1,7 +1,7 @@
 package com.platimee.spring_platimee.service
 
 import com.platimee.spring_platimee.expections.UserAlreadyExistsException
-import com.platimee.spring_platimee.model.User
+import com.platimee.spring_platimee.model.*
 import com.platimee.spring_platimee.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -13,27 +13,22 @@ class CreateUserService(private val userRepository: UserRepository) {
     private val logger = LoggerFactory.getLogger(CreateUserService::class.java)
 
     @Transactional
-    fun addUser(user: User): User {
-        logger.info("Attempting to create user: ${user.username}")
+    fun addUser(userDTO: UserCreateDTO): UserResponseDTO {
+        logger.info("Attempting to create user with username: ${userDTO.username}")
 
-        userRepository.findByUsername(user.username)?.let { existingUser ->
-            if (isDuplicateUser(existingUser, user)) {
-                logger.info("User already exists with the same details: ${user.username}")
-                return existingUser
-            } else {
-                logger.warn("Username already exists with different details: ${user.username}")
-                throw UserAlreadyExistsException("User with username '${user.username}' already exists with different details.")
-            }
+        userRepository.findByUsername(userDTO.username)?.let {
+            throw UserAlreadyExistsException("User with username '${userDTO.username}' already exists.")
         }
+
+        userRepository.findByEmail(userDTO.email)?.let {
+            throw UserAlreadyExistsException("User with email '${userDTO.email}' already exists.")
+        }
+
+        val user = UserDtoMapper.toEntity(userDTO)
 
         val savedUser = userRepository.save(user)
         logger.info("User created successfully: ${savedUser.userId}")
 
-        return savedUser
-    }
-
-    private fun isDuplicateUser(existingUser: User, newUser: User): Boolean {
-        return existingUser.username == newUser.username &&
-                existingUser.email == newUser.email
+        return UserDtoMapper.toResponseDto(savedUser)
     }
 }

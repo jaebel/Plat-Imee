@@ -1,7 +1,7 @@
 package com.platimee.spring_platimee.entrypoint
 
 import com.platimee.spring_platimee.model.User
-import com.platimee.spring_platimee.model.UserDTO
+import com.platimee.spring_platimee.model.UserUpdateDTO
 import com.platimee.spring_platimee.service.UpdateUserService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -22,7 +22,7 @@ class UpdateUserController(private val updateUserService: UpdateUserService) {
     )
     fun updateUserById(
         @PathVariable userId: Long,
-        @Valid @RequestBody userUpdateRequest: UserDTO
+        @Valid @RequestBody userUpdateRequest: UserUpdateDTO
     ): ResponseEntity<User> {
         val updatedUser = updateUserService.updateUser(userId, userUpdateRequest)
         return ResponseEntity.status(HttpStatus.OK).body(updatedUser)

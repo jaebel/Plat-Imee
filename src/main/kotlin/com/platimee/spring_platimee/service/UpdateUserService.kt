@@ -1,7 +1,7 @@
 package com.platimee.spring_platimee.service
 
 import com.platimee.spring_platimee.model.User
-import com.platimee.spring_platimee.model.UserDTO
+import com.platimee.spring_platimee.model.UserUpdateDTO
 import com.platimee.spring_platimee.repository.UserRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class UpdateUserService(private val userRepository: UserRepository) {
 
     // @Transactional
-    fun updateUser(userId: Long, userUpdateRequest: UserDTO): User {
+    fun updateUser(userId: Long, userUpdateRequest: UserUpdateDTO): User {
         val user = userRepository.findById(userId)
             .orElseThrow { EntityNotFoundException("User with ID $userId not found") }
 
