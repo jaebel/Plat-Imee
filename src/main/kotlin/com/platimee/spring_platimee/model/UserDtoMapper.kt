@@ -9,7 +9,7 @@ object UserDtoMapper {
             email = dto.email,
             firstName = dto.firstName,
             lastName = dto.lastName,
-            password = dto.hashedPassword  // Hash this in service
+            password = dto.password
         )
     }
 

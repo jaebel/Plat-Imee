@@ -6,6 +6,8 @@ import com.platimee.spring_platimee.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+
 
 @Service
 class CreateUserService(private val userRepository: UserRepository) {
@@ -24,7 +26,8 @@ class CreateUserService(private val userRepository: UserRepository) {
             throw UserAlreadyExistsException("User with email '${userDTO.email}' already exists.")
         }
 
-        val user = UserDtoMapper.toEntity(userDTO)
+        //val user = UserDtoMapper.toEntity(userDTO)
+        val user = UserDtoMapper.toEntity(userDTO.copy(password = BCryptPasswordEncoder().encode(userDTO.password)))
 
         val savedUser = userRepository.save(user)
         logger.info("User created successfully: ${savedUser.userId}")
