@@ -39,6 +39,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 	implementation("org.postgresql:postgresql:42.7.2")
+//	testImplementation("org.testcontainers:postgresql:1.19.0")
+	testImplementation("com.h2database:h2")
 
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")

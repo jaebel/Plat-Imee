@@ -6,7 +6,6 @@ import com.platimee.spring_platimee.model.UserResponseDTO
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.mockk.clearAllMocks
-import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.MockMvc

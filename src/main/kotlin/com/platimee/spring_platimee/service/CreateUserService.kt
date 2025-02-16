@@ -1,12 +1,14 @@
 package com.platimee.spring_platimee.service
 
 import com.platimee.spring_platimee.expections.UserAlreadyExistsException
-import com.platimee.spring_platimee.model.*
+import com.platimee.spring_platimee.model.UserCreateDTO
+import com.platimee.spring_platimee.model.UserDtoMapper
+import com.platimee.spring_platimee.model.UserResponseDTO
 import com.platimee.spring_platimee.repository.UserRepository
 import org.slf4j.LoggerFactory
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 
 @Service

@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 data class UserUpdateDTO(
     @field:Size(min = 3, max = 50) val username: String? = null,
