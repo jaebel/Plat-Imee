@@ -1,6 +1,7 @@
 package com.platimee.spring_platimee.entrypoint
 
 import com.platimee.spring_platimee.model.User
+import com.platimee.spring_platimee.model.UserResponseDTO
 import com.platimee.spring_platimee.service.GetUserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -17,7 +18,7 @@ class GetUserController(private val getUserService: GetUserService) {
         path = ["/api/v1/users"],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun getAllUsers(): ResponseEntity<List<User>> {
+    fun getAllUsers(): ResponseEntity<List<UserResponseDTO>> {
         val users = getUserService.getAll()
         return ResponseEntity.status(HttpStatus.OK).body(users)
     }
@@ -27,7 +28,7 @@ class GetUserController(private val getUserService: GetUserService) {
         path = ["/api/v1/users/{userId}"],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun getUserById(@PathVariable userId: Long): ResponseEntity<User> {
+    fun getUserById(@PathVariable userId: Long): ResponseEntity<UserResponseDTO> {
         val user = getUserService.getById(userId)
         return ResponseEntity.status(HttpStatus.OK).body(user)
     }

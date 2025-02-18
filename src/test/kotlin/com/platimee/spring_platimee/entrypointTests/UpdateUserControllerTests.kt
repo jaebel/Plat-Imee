@@ -27,7 +27,6 @@ class UpdateUserControllerTests(
     // Happy paths
 
     test("Can update existing user") {
-        // Given: Create a new user
         val testUser = UserCreateDTO("UserToUpdate", "UserToUpdate@gmail.com", "First", "Last", "TestPassword1&")
         val result = mvc.createUser(objectMapper, testUser)
         val response = result.response
@@ -36,11 +35,9 @@ class UpdateUserControllerTests(
         val responseContent = response.contentAsString
         val responseAsUser = objectMapper.readValue(responseContent, UserResponseDTO::class.java)
 
-        // When: Updating the user
         val updatedUser = UserUpdateDTO("UserUpdatedName", "UpdatedUser@gmail.com", "UpdatedFirst", "UpdatedLast", "TestPassword2&")
         val updateResult = mvc.updateUser(objectMapper, updatedUser, responseAsUser.userId)
 
-        // Then: Expect success
         updateResult.response.status shouldBe HttpStatus.OK.value()
         val updatedResponse = objectMapper.readValue(updateResult.response.contentAsString, UserResponseDTO::class.java)
 
@@ -54,7 +51,6 @@ class UpdateUserControllerTests(
     }
 
     test("Can partially update user fields") {
-        // Given: Create a new user
         val testUser = UserCreateDTO("PartialUser", "partialuser@gmail.com", "First", "Last", "PartialPassword1&")
         val result = mvc.createUser(objectMapper, testUser)
         val response = result.response
@@ -62,11 +58,9 @@ class UpdateUserControllerTests(
 
         val responseAsUser = objectMapper.readValue(response.contentAsString, UserResponseDTO::class.java)
 
-        // When: Updating only username and first name
         val partialUpdate = UserUpdateDTO(username = "UpdatedPartialUser", firstName = "UpdatedFirst")
         val updateResult = mvc.updateUser(objectMapper, partialUpdate, responseAsUser.userId)
 
-        // Then: Expect success
         updateResult.response.status shouldBe HttpStatus.OK.value()
         val updatedResponse = objectMapper.readValue(updateResult.response.contentAsString, UserResponseDTO::class.java)
 
@@ -84,28 +78,23 @@ class UpdateUserControllerTests(
     // Sad paths
 
     test("Updating a non-existent user should return NOT FOUND") {
-        // When: Trying to update a user with an invalid ID
         val nonExistentUserId = 9999L
         val updateRequest = UserUpdateDTO(username = "FakeUser", email = "fake@gmail.com")
 
         val updateResult = mvc.updateUser(objectMapper, updateRequest, nonExistentUserId)
 
-        // Then: Expect NOT FOUND status
         updateResult.response.status shouldBe HttpStatus.NOT_FOUND.value()
         updateResult.response.contentAsString shouldContain "User with ID $nonExistentUserId not found"
     }
 
     test("Updating user with invalid email should return BAD REQUEST") {
-        // Given: Create a user
         val testUser = UserCreateDTO("UserToUpdate", "UserToUpdate@gmail.com", "First", "Last", "TestPassword1&")
         val result = mvc.createUser(objectMapper, testUser)
         val responseAsUser = objectMapper.readValue(result.response.contentAsString, UserResponseDTO::class.java)
 
-        // When: Trying to update with an invalid email
         val invalidEmailUpdate = UserUpdateDTO(email = "not-an-email")
         val updateResult = mvc.updateUser(objectMapper, invalidEmailUpdate, responseAsUser.userId)
 
-        // Then: Expect BAD REQUEST
         updateResult.response.status shouldBe HttpStatus.BAD_REQUEST.value()
         updateResult.response.contentAsString shouldContain "Email must be a valid format"
     }
@@ -122,7 +111,6 @@ class UpdateUserControllerTests(
         val invalidUpdate = UserUpdateDTO(password = "Invalid123") // Missing special character
         val updateResult = mvc.updateUser(objectMapper, invalidUpdate, responseAsUser.userId)
 
-        // Then: Expect BAD REQUEST
         updateResult.response.status shouldBe HttpStatus.BAD_REQUEST.value()
         updateResult.response.contentAsString shouldContain "Password must contain"
     }

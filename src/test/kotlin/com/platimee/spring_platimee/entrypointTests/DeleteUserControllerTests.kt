@@ -6,13 +6,10 @@ import com.platimee.spring_platimee.model.UserResponseDTO
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.mockk.clearAllMocks
-import org.slf4j.LoggerFactory
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.core.env.Environment
 import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.MockMvc
-
-private val logger = LoggerFactory.getLogger(DeleteUserControllerTests::class.java)
 
 @AutoConfigureMockMvc
 class DeleteUserControllerTests(
@@ -49,6 +46,8 @@ class DeleteUserControllerTests(
         deleteAgainResult.response.contentAsString shouldContain "User with ID ${responseAsUser.userId} not found"
     }
 
+    // Sad paths
+
     test("Deleting a non-existent user returns not found") {
         val nonExistentUserId = 9999L
 
@@ -58,6 +57,7 @@ class DeleteUserControllerTests(
         result.response.contentAsString shouldContain "User with ID $nonExistentUserId not found"
     }
 
+    // Just a general test
     test("Log active profile and database URL") {
         val activeProfiles = env.activeProfiles.joinToString()
         val datasourceUrl = env.getProperty("spring.datasource.url")

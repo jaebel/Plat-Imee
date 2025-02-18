@@ -17,3 +17,7 @@ internal fun MockMvc.updateUser(objectMapper: ObjectMapper, user: UserUpdateDTO,
     content = objectMapper.writeValueAsString(user)
     contentType = MediaType.APPLICATION_JSON
 }.andReturn()
+
+internal fun MockMvc.getUser(userId: Long) : MvcResult = this.get("/api/v1/users/$userId").andReturn()
+
+internal fun MockMvc.getAllUsers() : MvcResult = this.get("/api/v1/users").andReturn()
