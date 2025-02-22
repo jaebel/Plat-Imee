@@ -21,7 +21,7 @@ class GetUserControllerTests(
         clearAllMocks()
     }
 
-    // Happy path
+    // Happy paths
 
     test("Can retrieve all users") {
         val testUser1 = UserCreateDTO("UserOne", "userone@gmail.com", "First", "Last", "TestPassword1&")
