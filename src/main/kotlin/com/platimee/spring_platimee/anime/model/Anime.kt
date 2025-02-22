@@ -31,6 +31,7 @@ class Anime(
     var members: Int? = null,
 
     @ManyToMany
+//    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "anime_genre",
         joinColumns = [JoinColumn(name = "anime_id")],

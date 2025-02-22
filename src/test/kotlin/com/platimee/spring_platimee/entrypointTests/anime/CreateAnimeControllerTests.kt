@@ -11,8 +11,10 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.http.HttpStatus
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @AutoConfigureMockMvc
 class CreateAnimeControllerTests(
     val mvc: MockMvc,
@@ -22,11 +24,10 @@ class CreateAnimeControllerTests(
 
     beforeEach {
         clearAllMocks()
-    }
 
-    val actionGenre = Genre(name = "Action")
-    val adventureGenre = Genre(name = "Adventure")
-    genreRepository.saveAll(listOf(actionGenre, adventureGenre))
+        genreRepository.save(Genre(name = "Action"))
+        genreRepository.save(Genre(name = "Adventure"))
+    }
 
     // Happy path
 
@@ -38,7 +39,7 @@ class CreateAnimeControllerTests(
             episodes = 220,
             rating = 8.5,
             members = 1000000,
-            genres = listOf(1, 2) // Assume these IDs correspond to "Action" and "Adventure"
+            genres = listOf(1, 2)
         )
 
         // When
@@ -52,7 +53,6 @@ class CreateAnimeControllerTests(
         val responseContent = response.contentAsString
         println("Response Content: $responseContent")
 
-        // Deserialize the response content to AnimeResponseDTO
         val responseAsAnime = objectMapper.readValue(responseContent, AnimeResponseDTO::class.java)
 
         responseAsAnime.name shouldBe testAnime.name
