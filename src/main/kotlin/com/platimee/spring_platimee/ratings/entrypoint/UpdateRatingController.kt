@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v1/ratings")
 class UpdateRatingController(private val updateRatingService: UpdateRatingService) {
 
-    @PutMapping(
+    @PatchMapping(
         value = ["/{ratingId}"],
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]

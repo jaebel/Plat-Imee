@@ -8,6 +8,7 @@ import com.platimee.spring_platimee.anime.repository.AnimeRepository
 import com.platimee.spring_platimee.anime.repository.GenreRepository
 import com.platimee.spring_platimee.entrypointTests.IntegrationTestSpec
 import com.platimee.spring_platimee.ratings.model.RatingCreateDTO
+import com.platimee.spring_platimee.ratings.model.RatingUpdateDTO
 import com.platimee.spring_platimee.ratings.model.RatingResponseDTO
 import com.platimee.spring_platimee.ratings.repository.RatingRepository
 import com.platimee.spring_platimee.users.model.User
@@ -15,12 +16,13 @@ import com.platimee.spring_platimee.users.repository.UserRepository
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.http.HttpStatus
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @AutoConfigureMockMvc
-class CreateRatingsControllerTests(
+class UpdateRatingControllerTests(
     val mvc: MockMvc,
     val objectMapper: ObjectMapper,
     val ratingRepository: RatingRepository,
@@ -30,7 +32,6 @@ class CreateRatingsControllerTests(
 ) : IntegrationTestSpec({
 
     beforeEach {
-        // Clear previous data in the repos before each test
         ratingRepository.deleteAll()
         userRepository.deleteAll()
         animeRepository.deleteAll()
@@ -38,32 +39,36 @@ class CreateRatingsControllerTests(
 
         val fantasyGenre = genreRepository.save(Genre(name = "Fantasy"))
 
-        println("GENRESSSSSS: ${genreRepository.findAll()}")
+        val user = userRepository.save(User(username = "TestUser", email = "TestUser@gmail.com", firstName = "Test", lastName = "User", password = "TestPassword1&"))
 
-        // Create sample data (user and anime)
-        userRepository.save(User(username = "TestUser", email = "TestUser@gmail.com", firstName = "Test", lastName = "User", password = "TestPassword1&"))
+        val anime = animeRepository.save(Anime(name = "Naruto", type = AnimeType.TV, episodes = 220, rating = 8.5, members = 1000000, genres = mutableSetOf(fantasyGenre)))
 
-        animeRepository.save(Anime(name = "Naruto", type = AnimeType.TV, episodes = 220, rating = 8.5, members = 1000000, genres = mutableSetOf(fantasyGenre)))
+        val initialRating = RatingCreateDTO(userId = user.userId!!, animeId = anime.animeId!!, rating = 7.5)
+        val result = mvc.createRating(objectMapper, initialRating)
+        val createdRating = objectMapper.readValue(result.response.contentAsString, RatingResponseDTO::class.java)
+
+        createdRating.id shouldNotBe null
     }
 
-    test("Can create a new rating") {
-        // Given: A valid rating DTO for a user and an anime
+    test("Can update an existing rating") {
         val user = userRepository.findAll().first()
         val anime = animeRepository.findAll().first()
+        val rating = ratingRepository.findAll().first()
 
-        val testRating = RatingCreateDTO(userId = user.userId!!, animeId = anime.animeId!!, rating = 8.0)
-        val result = mvc.createRating(objectMapper, testRating)
-        val responseAsAnime = objectMapper.readValue(result.response.contentAsString, RatingResponseDTO::class.java)
+        val updatedRating = RatingUpdateDTO(rating = 9.0)
 
-        responseAsAnime.id shouldNotBe null
-        responseAsAnime.userId shouldBe user.userId
-        responseAsAnime.animeId shouldBe anime.animeId
-        responseAsAnime.rating shouldBe 8.0
+        val result = mvc.updateRating(objectMapper, updatedRating, rating.id!!)
 
-        // Also ensure the rating was saved in the database
-        val savedRating = ratingRepository.findAll().first()
-        savedRating.rating shouldBe 8.0
-        savedRating.user.userId shouldBe user.userId
-        savedRating.anime.animeId shouldBe anime.animeId
+        result.response.status shouldBe HttpStatus.OK.value()
+
+        val responseAsRating = objectMapper.readValue(result.response.contentAsString, RatingResponseDTO::class.java)
+
+        responseAsRating.id shouldBe rating.id
+        responseAsRating.userId shouldBe user.userId
+        responseAsRating.animeId shouldBe anime.animeId
+        responseAsRating.rating shouldBe 9.0
+
+        val savedRating = ratingRepository.findById(rating.id!!).get()
+        savedRating.rating shouldBe 9.0
     }
 })
