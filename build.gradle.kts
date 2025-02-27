@@ -39,6 +39,12 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 	implementation("org.postgresql:postgresql:42.7.2")
+
+	// Auth jwt tokens
+	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
 //	testImplementation("org.testcontainers:postgresql:1.19.0")
 	testImplementation("com.h2database:h2")
 
