@@ -43,3 +43,6 @@ out/
 **/application.properties
 **/application*.properties
 
+# Ignore datasets
+/src/main/resources/animeDatasource/*.csv
+
