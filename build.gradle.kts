@@ -39,6 +39,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 	implementation("org.postgresql:postgresql:42.7.2")
+	implementation("com.opencsv:opencsv:5.7.1")
 
 	// Auth jwt tokens
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
