@@ -41,7 +41,7 @@ class UpdateAnimeControllerTests(
             name = "Naruto",
             type = AnimeType.TV,
             episodes = 220,
-            rating = 8.5,
+            score = 8.5,
             members = 1000000,
             genres = listOf(1, 2)
         )
@@ -58,7 +58,7 @@ class UpdateAnimeControllerTests(
         val updatedAnime = AnimeUpdateDTO(
             name = "Updated Anime",
             episodes = 24,
-            rating = 8.8,
+            score = 8.8,
             members = 10000,
             genres = listOf(1)
         )
@@ -72,8 +72,7 @@ class UpdateAnimeControllerTests(
         updatedResponse.animeId shouldBe responseAsAnime.animeId
         updatedResponse.name shouldBe "Updated Anime"
         updatedResponse.episodes shouldBe 24
-        updatedResponse.rating shouldBe 8.8
-        updatedResponse.members shouldBe 10000
+        updatedResponse.score shouldBe 8.8
         updatedResponse.genres shouldBe listOf("Action")
         responseAsAnime.genres shouldBe listOf("Action", "Adventure")
 
@@ -81,7 +80,6 @@ class UpdateAnimeControllerTests(
         val updatedAnimeEntity = animeRepository.findById(responseAsAnime.animeId).get()
         updatedAnimeEntity.name shouldBe "Updated Anime"
         updatedAnimeEntity.episodes shouldBe 24
-        updatedAnimeEntity.rating shouldBe 8.8
-        updatedAnimeEntity.members shouldBe 10000
+        updatedAnimeEntity.score shouldBe 8.8
     }
 })

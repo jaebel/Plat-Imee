@@ -37,7 +37,7 @@ class CreateAnimeControllerTests(
             name = "Naruto",
             type = AnimeType.TV,
             episodes = 220,
-            rating = 8.5,
+            score = 8.5,
             members = 1000000,
             genres = listOf(1, 2)
         )
@@ -58,8 +58,7 @@ class CreateAnimeControllerTests(
         responseAsAnime.name shouldBe testAnime.name
         responseAsAnime.type shouldBe testAnime.type
         responseAsAnime.episodes shouldBe testAnime.episodes
-        responseAsAnime.rating shouldBe testAnime.rating
-        responseAsAnime.members shouldBe testAnime.members
+        responseAsAnime.score shouldBe testAnime.score
         responseAsAnime.genres shouldBe listOf("Action", "Adventure")
         responseAsAnime.animeId shouldBe 1
     }

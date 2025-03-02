@@ -20,14 +20,10 @@ class UpdateAnimeService(
         val anime = animeRepository.findById(animeId)
             .orElseThrow { EntityNotFoundException("Anime with id $animeId not found.") }
 
-        // Update fields only if provided
-        updateDTO.name?.let { anime.name = it }
-        updateDTO.type?.let { anime.type = it }
-        updateDTO.episodes?.let { anime.episodes = it }
-        updateDTO.rating?.let { anime.rating = it }
-        updateDTO.members?.let { anime.members = it }
+        // Use the mapper to update the entity with fields from the DTO.
+        AnimeDtoMapper.updateEntityFromDto(anime, updateDTO)
 
-        // Update genres if provided
+        // Update genres separately if provided.
         updateDTO.genres?.let { genreIds ->
             val newGenres = genreRepository.findAllById(genreIds.toSet())
             anime.genres.clear()

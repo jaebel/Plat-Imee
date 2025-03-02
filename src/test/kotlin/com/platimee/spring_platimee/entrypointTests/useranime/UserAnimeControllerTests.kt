@@ -56,7 +56,7 @@ class UserAnimeControllerTests(
             name = "Test Anime",
             type = AnimeType.TV,
             episodes = 24,
-            rating = 8.5,
+            score = 8.5,
             members = 10000,
             genres = listOf(1L) // Assumes a genre with ID 1 exists in test DB
         )
