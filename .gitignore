@@ -45,4 +45,5 @@ out/
 
 # Ignore datasets
 /src/main/resources/animeDatasource/*.csv
+*.csv
 
