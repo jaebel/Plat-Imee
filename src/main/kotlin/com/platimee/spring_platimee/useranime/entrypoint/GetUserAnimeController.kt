@@ -14,4 +14,11 @@ class GetUserAnimeController(private val getUserAnimeService: GetUserAnimeServic
         val record = getUserAnimeService.getUserAnime(id)
         return ResponseEntity.ok(record)
     }
+
+    @GetMapping(params = ["userId"])
+    fun getUserAnimeByUser(@RequestParam userId: Long): ResponseEntity<List<UserAnimeResponseDTO>> {
+        val records = getUserAnimeService.getUserAnimeByUserId(userId)
+        return ResponseEntity.ok(records)
+    }
+
 }

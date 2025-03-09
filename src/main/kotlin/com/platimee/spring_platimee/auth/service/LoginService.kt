@@ -1,6 +1,7 @@
 package com.platimee.spring_platimee.auth.service
 
 import JwtUtil
+import com.platimee.spring_platimee.auth.model.LoggedInUserDTO
 import com.platimee.spring_platimee.auth.model.LoginRequestDTO
 import com.platimee.spring_platimee.auth.model.LoginResponseDTO
 import com.platimee.spring_platimee.users.repository.UserRepository
@@ -23,6 +24,13 @@ class LoginService(private val userRepository: UserRepository) {
 
         // Generate JWT token for the authenticated user
         val token = JwtUtil.generateToken(user.username)
-        return LoginResponseDTO(token = token)
+
+        val loggedInUser = LoggedInUserDTO(
+            userId = user.userId!!,
+            username = user.username,
+            email = user.email
+        )
+
+        return LoginResponseDTO(token = token, user = loggedInUser)
     }
 }

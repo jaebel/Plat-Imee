@@ -83,6 +83,31 @@ class UserAnimeControllerTests(
         response.animeId shouldBe anime.animeId
     }
 
+    test("Can retrieve an existing UserAnime record") {
+        val user = createTestUserDirectly()
+        val anime = createTestAnimeDirectly()
+
+        val createDto = UserAnimeCreateDTO(
+            userId = user.userId,
+            animeId = anime.animeId,
+            status = null // Should default to WATCHING
+        )
+        val createResult = mvc.createUserAnime(objectMapper, createDto)
+        createResult.response.status shouldBe HttpStatus.CREATED.value()
+        val createdRecord = objectMapper.readValue(createResult.response.contentAsString, UserAnimeResponseDTO::class.java)
+
+        val getResult = mvc.getUserAnime(createdRecord.id)
+        getResult.response.status shouldBe HttpStatus.OK.value()
+
+        val fetchedRecord = objectMapper.readValue(getResult.response.contentAsString, UserAnimeResponseDTO::class.java)
+
+        fetchedRecord.id shouldBe createdRecord.id
+        fetchedRecord.userId shouldBe user.userId
+        fetchedRecord.animeId shouldBe anime.animeId
+        fetchedRecord.status shouldBe createdRecord.status
+    }
+
+
     test("Can update an existing UserAnime record") {
         val user = createTestUserDirectly()
         val anime = createTestAnimeDirectly()

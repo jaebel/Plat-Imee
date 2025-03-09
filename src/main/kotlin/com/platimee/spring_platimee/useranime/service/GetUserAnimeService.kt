@@ -16,4 +16,11 @@ class GetUserAnimeService(private val userAnimeRepository: UserAnimeRepository) 
             .orElseThrow { EntityNotFoundException("UserAnime record with ID $id not found") }
         return UserAnimeDtoMapper.toResponseDTO(userAnime)
     }
+
+    // Retrieves all UserAnime records for a given user ID.
+    @Transactional(readOnly = true)
+    fun getUserAnimeByUserId(userId: Long): List<UserAnimeResponseDTO> {
+        val userAnimeList = userAnimeRepository.findAll().filter { it.user.userId == userId }
+        return userAnimeList.map { UserAnimeDtoMapper.toResponseDTO(it) }
+    }
 }

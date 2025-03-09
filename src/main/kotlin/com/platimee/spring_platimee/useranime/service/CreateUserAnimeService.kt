@@ -31,5 +31,4 @@ class CreateUserAnimeService(
         val savedRecord = userAnimeRepository.save(userAnime)
         return UserAnimeDtoMapper.toResponseDTO(savedRecord)
     }
-
 }
