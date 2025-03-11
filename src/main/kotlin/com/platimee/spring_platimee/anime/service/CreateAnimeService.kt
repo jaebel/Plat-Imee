@@ -29,7 +29,7 @@ class CreateAnimeService(
 
         // Save the entity.
         val savedAnime = animeRepository.save(anime)
-        logger.info("Anime created successfully: ${savedAnime.animeId}")
+        logger.info("Anime created successfully: ${savedAnime.malId}")
 
         // Map to response DTO and return.
         return AnimeDtoMapper.toResponseDto(savedAnime)

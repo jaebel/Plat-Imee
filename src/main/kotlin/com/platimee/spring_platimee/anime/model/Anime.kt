@@ -9,13 +9,8 @@ import java.time.Instant
 @Table(name = "anime")
 class Anime(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "animeGenerator")
-    @SequenceGenerator(name = "animeGenerator", sequenceName = "animeSequence", allocationSize = 1)
-    @Column(name = "anime_id")
-    var animeId: Long? = null,
-
-    @Column(name = "mal_id", unique = true)
-    var malId: Long? = null,
+    @Column(name = "mal_id", unique = true, nullable = false)
+    var malId: Long,  // Now using malId as the primary key
 
     @Column(name = "name", nullable = false)
     var name: String,
@@ -29,7 +24,6 @@ class Anime(
     @Column(name = "japanese_name")
     var japaneseName: String? = null,
 
-    // If you still want an enum for Type, that’s fine—just handle "Unknown" or other cases
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     var type: AnimeType? = null,
@@ -43,16 +37,15 @@ class Anime(
     @Column(name = "premiered")
     var premiered: String? = null,
 
-//    @ManyToMany
+    // Update join column from anime_id to mal_id
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "anime_genre",
-        joinColumns = [JoinColumn(name = "anime_id")],
+        joinColumns = [JoinColumn(name = "mal_id")],
         inverseJoinColumns = [JoinColumn(name = "genre_id")]
     )
     var genres: MutableSet<Genre> = mutableSetOf(),
 
-    // If you track creation/update times
     @Column(name = "created_date", updatable = false)
     @CreatedDate
     var createdDate: Instant = Instant.now(),
@@ -62,7 +55,6 @@ class Anime(
     var updatedDate: Instant = Instant.now()
 )
 
-
 enum class AnimeType {
     TV,
     MOVIE,
@@ -70,4 +62,3 @@ enum class AnimeType {
     ONA,
     SPECIAL
 }
-

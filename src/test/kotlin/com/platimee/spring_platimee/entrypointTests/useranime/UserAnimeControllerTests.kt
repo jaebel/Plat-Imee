@@ -53,6 +53,7 @@ class UserAnimeControllerTests(
     // Create an anime directly via repository
     fun createTestAnimeDirectly(): AnimeResponseDTO {
         val animeCreateDTO = AnimeCreateDTO(
+            malId = 1,
             name = "Test Anime",
             type = AnimeType.TV,
             episodes = 24,
@@ -71,7 +72,7 @@ class UserAnimeControllerTests(
 
         val createDto = UserAnimeCreateDTO(
             userId = user.userId,
-            animeId = anime.animeId,
+            malId = anime.malId,
             status = null // Should default to WATCHING
         )
 
@@ -80,7 +81,7 @@ class UserAnimeControllerTests(
         val response = objectMapper.readValue(result.response.contentAsString, UserAnimeResponseDTO::class.java)
         response.status shouldBe UserAnimeStatus.WATCHING
         response.userId shouldBe user.userId
-        response.animeId shouldBe anime.animeId
+        response.malId shouldBe anime.malId
     }
 
     test("Can retrieve an existing UserAnime record") {
@@ -89,7 +90,7 @@ class UserAnimeControllerTests(
 
         val createDto = UserAnimeCreateDTO(
             userId = user.userId,
-            animeId = anime.animeId,
+            malId = anime.malId,
             status = null // Should default to WATCHING
         )
         val createResult = mvc.createUserAnime(objectMapper, createDto)
@@ -103,7 +104,7 @@ class UserAnimeControllerTests(
 
         fetchedRecord.id shouldBe createdRecord.id
         fetchedRecord.userId shouldBe user.userId
-        fetchedRecord.animeId shouldBe anime.animeId
+        fetchedRecord.malId shouldBe anime.malId
         fetchedRecord.status shouldBe createdRecord.status
     }
 
@@ -115,7 +116,7 @@ class UserAnimeControllerTests(
         // Create initial record
         val createDto = UserAnimeCreateDTO(
             userId = user.userId,
-            animeId = anime.animeId,
+            malId = anime.malId,
             status = null
         )
         val createResult = mvc.createUserAnime(objectMapper, createDto)
@@ -142,7 +143,7 @@ class UserAnimeControllerTests(
 
         val createDto = UserAnimeCreateDTO(
             userId = user.userId,
-            animeId = anime.animeId,
+            malId = anime.malId,
             status = null
         )
         val createResult = mvc.createUserAnime(objectMapper, createDto)

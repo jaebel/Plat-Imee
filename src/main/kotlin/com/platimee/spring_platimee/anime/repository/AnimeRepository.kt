@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface AnimeRepository : JpaRepository<Anime, Long> {
-    fun findByAnimeId(animeId: Long): Anime?
+    fun findByMalId(malId: Long): Anime?
 }

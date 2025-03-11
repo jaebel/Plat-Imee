@@ -34,6 +34,7 @@ class CreateAnimeControllerTests(
     test("Can create anime") {
         // Given
         val testAnime = AnimeCreateDTO(
+            malId = 1,
             name = "Naruto",
             type = AnimeType.TV,
             episodes = 220,
@@ -59,7 +60,7 @@ class CreateAnimeControllerTests(
         responseAsAnime.type shouldBe testAnime.type
         responseAsAnime.episodes shouldBe testAnime.episodes
         responseAsAnime.score shouldBe testAnime.score
-        responseAsAnime.genres shouldBe listOf("Action", "Adventure")
-        responseAsAnime.animeId shouldBe 1
+        responseAsAnime.genres.sorted() shouldBe listOf("Action", "Adventure").sorted() // sorted to avoid order sensitive assertions
+        responseAsAnime.malId shouldBe 1
     }
 })

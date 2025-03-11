@@ -24,11 +24,11 @@ class GetAnimeController(private val getAnimeService: GetAnimeService) {
 
     // GET a single anime by ID
     @GetMapping(
-        path = ["/api/v1/anime/{animeId}"],
+        path = ["/api/v1/anime/{malId}"],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun getAnimeById(@PathVariable animeId: Long): ResponseEntity<AnimeResponseDTO> {
-        val anime = getAnimeService.getById(animeId)
+    fun getAnimeById(@PathVariable malId: Long): ResponseEntity<AnimeResponseDTO> {
+        val anime = getAnimeService.getById(malId)
         return ResponseEntity.status(HttpStatus.OK).body(anime)
     }
 }

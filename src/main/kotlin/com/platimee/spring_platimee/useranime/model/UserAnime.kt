@@ -12,7 +12,7 @@ import java.time.Instant
 @Entity
 @Table(
     name = "user_anime",
-    uniqueConstraints = [UniqueConstraint(columnNames = ["user_id", "anime_id"])]
+    uniqueConstraints = [UniqueConstraint(columnNames = ["user_id", "mal_id"])]
 )
 class UserAnime(
     @Id
@@ -26,7 +26,7 @@ class UserAnime(
     var user: User,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "anime_id", nullable = false)
+    @JoinColumn(name = "mal_id", nullable = false)
     var anime: Anime,
 
     @Enumerated(EnumType.STRING)

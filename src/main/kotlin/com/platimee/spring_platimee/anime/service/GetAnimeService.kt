@@ -17,9 +17,9 @@ class GetAnimeService(private val animeRepository: AnimeRepository) {
         return anime.map { AnimeDtoMapper.toResponseDto(it) }
     }
 
-    fun getById(animeId: Long): AnimeResponseDTO {
-        val anime = animeRepository.findByAnimeId(animeId)
-            ?: throw EntityNotFoundException("Anime with ID $animeId not found")
+    fun getById(malId: Long): AnimeResponseDTO {
+        val anime = animeRepository.findByMalId(malId)
+            ?: throw EntityNotFoundException("Anime with ID $malId not found")
         return AnimeDtoMapper.toResponseDto(anime)
     }
 }

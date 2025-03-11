@@ -8,7 +8,7 @@ object AnimeDtoMapper {
     // Note: The genres list (of Long IDs) is not handled here.
     fun toEntity(dto: AnimeCreateDTO): Anime {
         return Anime(
-            malId = dto.malId,
+            malId = dto.malId!!,
             name = dto.name,
             englishName = dto.englishName,
             japaneseName = dto.japaneseName,
@@ -24,17 +24,17 @@ object AnimeDtoMapper {
     }
 
     // Convert from Anime entity to AnimeResponseDTO.
+    // Now, only malId is used as the identifier.
     fun toResponseDto(entity: Anime): AnimeResponseDTO {
         val genreNames = entity.genres.map { it.name }
         return AnimeResponseDTO(
-            animeId = entity.animeId!!,
             malId = entity.malId,
             name = entity.name,
             englishName = entity.englishName,
             japaneseName = entity.japaneseName,
             type = entity.type,
             episodes = entity.episodes,
-            score = entity.score,      // Renamed field
+            score = entity.score,
             aired = entity.aired,
             premiered = entity.premiered,
             genres = genreNames,

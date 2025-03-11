@@ -19,11 +19,11 @@ class CreateUserAnimeService(
     fun addUserAnime(dto: UserAnimeCreateDTO): UserAnimeResponseDTO {
         val user = userRepository.findById(dto.userId)
             .orElseThrow { EntityNotFoundException("User with ID ${dto.userId} not found") }
-        val anime = animeRepository.findById(dto.animeId)
-            .orElseThrow { EntityNotFoundException("Anime with ID ${dto.animeId} not found") }
+        val anime = animeRepository.findById(dto.malId)
+            .orElseThrow { EntityNotFoundException("Anime with ID ${dto.malId} not found") }
 
         // Check if a record already exists
-        userAnimeRepository.findAll().find { it.user.userId == dto.userId && it.anime.animeId == dto.animeId }?.let {
+        userAnimeRepository.findAll().find { it.user.userId == dto.userId && it.anime.malId == dto.malId }?.let {
             throw IllegalStateException("This anime is already in the user's list.")
         }
 

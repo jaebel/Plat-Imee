@@ -33,8 +33,8 @@ class GetAnimeControllerTests(
     // Happy paths
 
     test("Can retrieve all anime") {
-        val testAnime1 = AnimeCreateDTO(name = "Naruto", type = AnimeType.TV, episodes = 220, score = 8.5, members = 1000000, genres = listOf(1, 2))
-        val testAnime2 = AnimeCreateDTO(name = "Sousou no Frieren", type = AnimeType.TV, episodes = 28, score = 8.5, members = 1000000, genres = listOf(1, 2))
+        val testAnime1 = AnimeCreateDTO(malId = 1, name = "Naruto", type = AnimeType.TV, episodes = 220, score = 8.5, members = 1000000, genres = listOf(1, 2))
+        val testAnime2 = AnimeCreateDTO(malId = 2, name = "Sousou no Frieren", type = AnimeType.TV, episodes = 28, score = 8.5, members = 1000000, genres = listOf(1, 2))
 
         val result1 = mvc.createAnime(objectMapper, testAnime1).response
         val result2 = mvc.createAnime(objectMapper, testAnime2).response
@@ -52,7 +52,7 @@ class GetAnimeControllerTests(
     }
 
     test("Can retrieve a anime by ID") {
-        val testAnime = AnimeCreateDTO(name = "Naruto", type = AnimeType.TV, episodes = 220, score = 8.5, members = 1000000, genres = listOf(1, 2))
+        val testAnime = AnimeCreateDTO(malId = 1, name = "Naruto", type = AnimeType.TV, episodes = 220, score = 8.5, members = 1000000, genres = listOf(1, 2))
         val result = mvc.createAnime(objectMapper, testAnime)
 
         val response = result.response
@@ -60,17 +60,17 @@ class GetAnimeControllerTests(
 
         val createdAnime = objectMapper.readValue(response.contentAsString, AnimeResponseDTO::class.java)
 
-        val getResult = mvc.getAnime(createdAnime.animeId)
+        val getResult = mvc.getAnime(createdAnime.malId)
 
         getResult.response.status shouldBe HttpStatus.OK.value()
         val fetchedAnime = objectMapper.readValue(getResult.response.contentAsString, AnimeResponseDTO::class.java)
 
-        fetchedAnime.animeId shouldBe createdAnime.animeId
+        fetchedAnime.malId shouldBe createdAnime.malId
         fetchedAnime.name shouldBe "Naruto"
         fetchedAnime.type shouldBe AnimeType.TV
         fetchedAnime.episodes shouldBe 220
         fetchedAnime.score shouldBe 8.5
-//        fetchedAnime.genres shouldBe listOf("Action", "Adventure")
+        fetchedAnime.genres.sorted() shouldBe listOf("Action", "Adventure").sorted()
     }
 
     // Sad path

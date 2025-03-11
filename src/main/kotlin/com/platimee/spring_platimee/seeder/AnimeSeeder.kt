@@ -64,7 +64,7 @@ class AnimeSeeder(
                         }
 
                         val animeEntity = Anime(
-                            malId = malId,
+                            malId = malId!!,
                             name = name,
                             englishName = englishName,
                             japaneseName = japaneseName,

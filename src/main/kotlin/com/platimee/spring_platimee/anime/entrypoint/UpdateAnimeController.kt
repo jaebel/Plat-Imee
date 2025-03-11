@@ -16,12 +16,12 @@ class UpdateAnimeController(
 ) {
 
     @PatchMapping(
-        path = ["/{animeId}"],
+        path = ["/{malId}"],
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun updateAnime(@PathVariable animeId: Long, @Valid @RequestBody animeUpdateRequestO: AnimeUpdateDTO): ResponseEntity<AnimeResponseDTO> {
-        val updatedAnime = updateAnimeService.updateAnime(animeId, animeUpdateRequestO)
+    fun updateAnime(@PathVariable malId: Long, @Valid @RequestBody animeUpdateRequestO: AnimeUpdateDTO): ResponseEntity<AnimeResponseDTO> {
+        val updatedAnime = updateAnimeService.updateAnime(malId, animeUpdateRequestO)
         return ResponseEntity.status(HttpStatus.OK).body(updatedAnime)
     }
 }

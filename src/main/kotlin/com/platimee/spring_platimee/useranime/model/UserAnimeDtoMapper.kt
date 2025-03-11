@@ -10,7 +10,7 @@ object UserAnimeDtoMapper {
         return UserAnimeResponseDTO(
             id = userAnime.id ?: 0L,
             userId = userAnime.user.userId ?: 0L,
-            animeId = userAnime.anime.animeId ?: 0L,
+            malId = userAnime.anime.malId,
             status = userAnime.status,
             rating = userAnime.rating,
             episodesWatched = userAnime.episodesWatched

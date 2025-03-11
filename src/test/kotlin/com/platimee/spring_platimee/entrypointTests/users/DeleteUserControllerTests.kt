@@ -28,7 +28,6 @@ class DeleteUserControllerTests(
     test("Can delete existing user") {
         // Given: Create a new user
         val testUser = UserCreateDTO("UserToDelete", "UserToDelete@gmail.com", "Test", "User", "TestPassword1&")
-        val testUser2 = UserCreateDTO("TestUser", "TestUser@gmail.com", "Test", "User", "TestPassword1&")
 
         // Creating the user
         val result = mvc.createUser(objectMapper, testUser)
