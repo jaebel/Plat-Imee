@@ -21,7 +21,6 @@ class UpdateUserService(private val userRepository: UserRepository) {
             throw AccessDeniedException("You are not authorized to update this profile")
         }
 
-        userUpdateRequest.username?.let { user.username = it }
         userUpdateRequest.email?.let { user.email = it }
         userUpdateRequest.firstName?.let { user.firstName = it }
         userUpdateRequest.lastName?.let { user.lastName = it }

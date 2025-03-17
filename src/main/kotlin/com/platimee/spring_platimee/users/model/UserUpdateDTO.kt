@@ -1,12 +1,12 @@
 package com.platimee.spring_platimee.users.model
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
 
+@JsonIgnoreProperties(ignoreUnknown = false)
 data class UserUpdateDTO(
-    @field:Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters.")
-    val username: String? = null,
 
     @field:Email(message = "Email must be a valid format (e.g., user@example.com).")
     @field:Pattern(

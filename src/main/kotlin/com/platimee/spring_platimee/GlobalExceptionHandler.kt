@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.AccessDeniedException
 import org.springframework.validation.FieldError
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -37,6 +38,11 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(AnimeAlreadyExistsException::class)
     fun handleAnimeAlreadyExistsException(ex: AnimeAlreadyExistsException): ResponseEntity<String> {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.message)
+    }
+
+    @ExceptionHandler(AccessDeniedException::class)
+    fun handleAccessDeniedException(ex: AccessDeniedException): ResponseEntity<String> {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.message)
     }
 

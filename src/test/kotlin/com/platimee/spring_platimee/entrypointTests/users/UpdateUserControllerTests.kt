@@ -11,8 +11,15 @@ import io.kotest.matchers.string.shouldContain
 import io.mockk.clearAllMocks
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
+
 
 @AutoConfigureMockMvc
 class UpdateUserControllerTests(
@@ -36,7 +43,7 @@ class UpdateUserControllerTests(
         val responseContent = response.contentAsString
         val responseAsUser = objectMapper.readValue(responseContent, UserResponseDTO::class.java)
 
-        val updatedUser = UserUpdateDTO("UserUpdatedName", "UpdatedUser@gmail.com", "UpdatedFirst", "UpdatedLast", "TestPassword2&")
+        val updatedUser = UserUpdateDTO("UpdatedUser@gmail.com", "UpdatedFirst", "UpdatedLast", "TestPassword2&")
         // Pass the created user's username so that the mock authenticated user is attached.
         val updateResult = mvc.updateUser(objectMapper, updatedUser, responseAsUser.userId, responseAsUser.username, "USER")
 
@@ -44,7 +51,6 @@ class UpdateUserControllerTests(
         val updatedResponse = objectMapper.readValue(updateResult.response.contentAsString, UserResponseDTO::class.java)
 
         updatedResponse.userId shouldBe responseAsUser.userId
-        updatedResponse.username shouldBe "UserUpdatedName"
         updatedResponse.firstName shouldBe "UpdatedFirst"
         updatedResponse.lastName shouldBe "UpdatedLast"
 
@@ -60,14 +66,13 @@ class UpdateUserControllerTests(
 
         val responseAsUser = objectMapper.readValue(response.contentAsString, UserResponseDTO::class.java)
 
-        val partialUpdate = UserUpdateDTO(username = "UpdatedPartialUser", firstName = "UpdatedFirst")
+        val partialUpdate = UserUpdateDTO(firstName = "UpdatedFirst")
         // Pass the user's username for authentication.
         val updateResult = mvc.updateUser(objectMapper, partialUpdate, responseAsUser.userId, responseAsUser.username, "USER")
 
         updateResult.response.status shouldBe HttpStatus.OK.value()
         val updatedResponse = objectMapper.readValue(updateResult.response.contentAsString, UserResponseDTO::class.java)
 
-        updatedResponse.username shouldBe "UpdatedPartialUser"
         updatedResponse.firstName shouldBe "UpdatedFirst"
 
         // Should remain unchanged
@@ -78,11 +83,36 @@ class UpdateUserControllerTests(
         BCryptPasswordEncoder().matches("PartialPassword1&", updatedUserEntity.password) shouldBe true
     }
 
+    test("Can provide empty update") {
+        val testUser = UserCreateDTO("UserToUpdate", "UserToUpdate@gmail.com", "First", "Last", "TestPassword1&")
+        val result = mvc.createUser(objectMapper, testUser)
+        val response = result.response
+        response.status shouldBe HttpStatus.CREATED.value()
+
+        val responseContent = response.contentAsString
+        val responseAsUser = objectMapper.readValue(responseContent, UserResponseDTO::class.java)
+
+        val updatedUser = UserUpdateDTO()
+        // Pass the created user's username so that the mock authenticated user is attached.
+        val updateResult = mvc.updateUser(objectMapper, updatedUser, responseAsUser.userId, responseAsUser.username, "USER")
+
+        updateResult.response.status shouldBe HttpStatus.OK.value()
+        val updatedResponse = objectMapper.readValue(updateResult.response.contentAsString, UserResponseDTO::class.java)
+
+        // No update
+        updatedResponse.userId shouldBe responseAsUser.userId
+        updatedResponse.firstName shouldBe "First"
+        updatedResponse.lastName shouldBe "Last"
+
+        val updatedUserEntity = userRepository.findById(responseAsUser.userId).get()
+        BCryptPasswordEncoder().matches("TestPassword1&", updatedUserEntity.password) shouldBe true
+    }
+
     // Sad paths
 
     test("Updating a non-existent user should return NOT FOUND") {
         val nonExistentUserId = 9999L
-        val updateRequest = UserUpdateDTO(username = "FakeUser", email = "fake@gmail.com")
+        val updateRequest = UserUpdateDTO(firstName = "FakeUser", email = "fake@gmail.com")
         // Provide a mock username to satisfy the security check.
         val updateResult = mvc.updateUser(objectMapper, updateRequest, nonExistentUserId, "FakeUser", "USER")
 
