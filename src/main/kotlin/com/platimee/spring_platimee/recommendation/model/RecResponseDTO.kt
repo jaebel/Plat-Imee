@@ -14,5 +14,6 @@ data class AnimeEntryDTO(
 
 data class UserAnimeListDTO(
     val userId: Long,
-    val animeList: List<AnimeEntryDTO>
+    val animeList: List<AnimeEntryDTO>,
+    val safeSearch: Boolean = false
 )

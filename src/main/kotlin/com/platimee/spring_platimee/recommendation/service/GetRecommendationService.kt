@@ -18,14 +18,12 @@ class GetRecommendationService(
     // Hardcoded URL for the recommendation service
     private val recommendationServiceUrl: String = "http://localhost:5000"
 
-    fun getRecommendations(userId: Long): List<RecResponseDTO> {
-        logger.info("Starting to get recommendations for user: {}", userId)
+    fun getRecommendations(userId: Long, safeSearch: Boolean = false): List<RecResponseDTO> {
+        logger.info("Starting to get recommendations for user: {} (safeSearch = {})", userId, safeSearch)
 
-        // Retrieve user's anime list from the database
         val userAnimeListDTOs = getUserAnimeService.getUserAnimeByUserId(userId)
         logger.info("Retrieved {} anime records for user {}", userAnimeListDTOs.size, userId)
 
-        // Map each UserAnimeResponseDTO to AnimeEntryDTO, defaulting rating to 7.0 if missing
         val animeList = userAnimeListDTOs.map {
             AnimeEntryDTO(
                 malId = it.malId,
@@ -33,14 +31,13 @@ class GetRecommendationService(
             )
         }
 
-        // Construct payload for recommendation system
         val payload = UserAnimeListDTO(
             userId = userId,
-            animeList = animeList
+            animeList = animeList,
+            safeSearch = safeSearch
         )
         logger.debug("Constructed payload for recommendation service: {}", payload)
 
-        // Call the python recommendation microservice with the payload
         val url = "$recommendationServiceUrl/api/recommendations"
         logger.info("Sending POST request to external recommendation service at {}", url)
         val response = restTemplate.postForEntity(url, payload, Array<RecResponseDTO>::class.java)
