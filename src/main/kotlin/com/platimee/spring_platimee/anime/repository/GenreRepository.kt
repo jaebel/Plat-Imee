@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface GenreRepository : JpaRepository<Genre, Long>{
     fun findByName(genreName: String): Genre?
+    fun findByNameIn(names: List<String>): List<Genre>
 }
