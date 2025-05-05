@@ -33,8 +33,24 @@ class GetAnimeControllerTests(
     // Happy paths
 
     test("Can retrieve all anime") {
-        val testAnime1 = AnimeCreateDTO(malId = 1, name = "Naruto", type = AnimeType.TV, episodes = 220, score = 8.5, members = 1000000, genres = listOf(1, 2))
-        val testAnime2 = AnimeCreateDTO(malId = 2, name = "Sousou no Frieren", type = AnimeType.TV, episodes = 28, score = 8.5, members = 1000000, genres = listOf(1, 2))
+        val testAnime1 = AnimeCreateDTO(
+            malId = 1,
+            name = "Naruto",
+            type = AnimeType.TV,
+            episodes = 220,
+            score = 8.5,
+            members = 1000000,
+            genres = listOf(1, 2)
+        )
+        val testAnime2 = AnimeCreateDTO(
+            malId = 2,
+            name = "Sousou no Frieren",
+            type = AnimeType.TV,
+            episodes = 28,
+            score = 8.5,
+            members = 1000000,
+            genres = listOf(1, 2)
+        )
 
         val result1 = mvc.createAnime(objectMapper, testAnime1).response
         val result2 = mvc.createAnime(objectMapper, testAnime2).response
@@ -52,7 +68,15 @@ class GetAnimeControllerTests(
     }
 
     test("Can retrieve a anime by ID") {
-        val testAnime = AnimeCreateDTO(malId = 1, name = "Naruto", type = AnimeType.TV, episodes = 220, score = 8.5, members = 1000000, genres = listOf(1, 2))
+        val testAnime = AnimeCreateDTO(
+            malId = 1,
+            name = "Naruto",
+            type = AnimeType.TV,
+            episodes = 220,
+            score = 8.5,
+            members = 1000000,
+            genres = listOf(1, 2)
+        )
         val result = mvc.createAnime(objectMapper, testAnime)
 
         val response = result.response

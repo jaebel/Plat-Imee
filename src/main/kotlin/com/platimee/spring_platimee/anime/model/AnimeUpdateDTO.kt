@@ -30,6 +30,6 @@ data class AnimeUpdateDTO(
     val aired: String? = null,
     val premiered: String? = null,
 
-    // Optional: if provided, update the genres using these genre IDs.
+    // Optional: if provided, update the genres using these genre IDs
     val genres: List<Long>? = null
 )

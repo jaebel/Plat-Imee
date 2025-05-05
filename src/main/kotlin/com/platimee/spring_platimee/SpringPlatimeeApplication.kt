@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RestController
 class SpringPlatimeeApplication
 
 fun main(args: Array<String>) {
-	runApplication<SpringPlatimeeApplication>(*args)
+    runApplication<SpringPlatimeeApplication>(*args)
 }
 
 @RestController
 @RequestMapping("/")
 class HelloController {
-	@GetMapping
-	fun sayHello(): String {
-		return "Hello, World!"
-	}
+    @GetMapping
+    fun sayHello(): String {
+        return "Hello, World!"
+    }
 }

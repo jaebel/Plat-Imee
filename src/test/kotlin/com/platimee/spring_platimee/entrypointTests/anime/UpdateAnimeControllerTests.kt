@@ -68,7 +68,8 @@ class UpdateAnimeControllerTests(
 
         updateResult.response.status shouldBe HttpStatus.OK.value()
 
-        val updatedResponse = objectMapper.readValue(updateResult.response.contentAsString, AnimeResponseDTO::class.java)
+        val updatedResponse =
+            objectMapper.readValue(updateResult.response.contentAsString, AnimeResponseDTO::class.java)
 
         updatedResponse.malId shouldBe responseAsAnime.malId
         updatedResponse.name shouldBe "Updated Anime"

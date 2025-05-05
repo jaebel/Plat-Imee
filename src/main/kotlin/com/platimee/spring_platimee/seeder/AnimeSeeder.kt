@@ -45,7 +45,6 @@ class AnimeSeeder(
             while (reader.readNext().also { line = it } != null) {
                 line?.let { columns ->
                     if (columns.size >= 10) {
-                        // Parse columns indices may need to be adjusted though
                         val malId = columns[0].trim().toLongOrNull()
                         val name = columns[1].trim()
                         val score = columns[2].trim().toDoubleOrNull()

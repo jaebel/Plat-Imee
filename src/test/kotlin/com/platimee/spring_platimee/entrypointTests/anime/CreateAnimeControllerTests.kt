@@ -60,7 +60,10 @@ class CreateAnimeControllerTests(
         responseAsAnime.type shouldBe testAnime.type
         responseAsAnime.episodes shouldBe testAnime.episodes
         responseAsAnime.score shouldBe testAnime.score
-        responseAsAnime.genres.sorted() shouldBe listOf("Action", "Adventure").sorted() // sorted to avoid order sensitive assertions
+        responseAsAnime.genres.sorted() shouldBe listOf(
+            "Action",
+            "Adventure"
+        ).sorted() // sorted to avoid order sensitive assertions
         responseAsAnime.malId shouldBe 1
     }
 })

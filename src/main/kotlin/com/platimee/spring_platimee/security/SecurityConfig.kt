@@ -30,19 +30,6 @@ class SecurityConfig(
         return provider
     }
 
-//    @Bean
-//    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-//        http.csrf { it.disable() }
-//            .authorizeHttpRequests { authz ->
-//                authz
-//                    .requestMatchers("/api/v1/auth/**", "/signup", "/login", "/").permitAll()
-//                    .anyRequest().authenticated()
-//            }
-//            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-//
-//        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
-//        return http.build()
-//    }
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf { it.disable() }

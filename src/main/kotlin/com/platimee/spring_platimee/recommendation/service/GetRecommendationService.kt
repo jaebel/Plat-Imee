@@ -15,6 +15,7 @@ class GetRecommendationService(
 ) {
 
     private val logger = LoggerFactory.getLogger(GetRecommendationService::class.java)
+
     // Hardcoded URL for the recommendation service
     private val recommendationServiceUrl: String = "http://localhost:5000"
 

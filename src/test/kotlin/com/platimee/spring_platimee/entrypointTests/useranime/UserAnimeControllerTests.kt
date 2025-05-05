@@ -95,7 +95,8 @@ class UserAnimeControllerTests(
         )
         val createResult = mvc.createUserAnime(objectMapper, createDto)
         createResult.response.status shouldBe HttpStatus.CREATED.value()
-        val createdRecord = objectMapper.readValue(createResult.response.contentAsString, UserAnimeResponseDTO::class.java)
+        val createdRecord =
+            objectMapper.readValue(createResult.response.contentAsString, UserAnimeResponseDTO::class.java)
 
         val getResult = mvc.getUserAnime(createdRecord.id)
         getResult.response.status shouldBe HttpStatus.OK.value()
@@ -121,7 +122,8 @@ class UserAnimeControllerTests(
         )
         val createResult = mvc.createUserAnime(objectMapper, createDto)
         createResult.response.status shouldBe HttpStatus.CREATED.value()
-        val createdRecord = objectMapper.readValue(createResult.response.contentAsString, UserAnimeResponseDTO::class.java)
+        val createdRecord =
+            objectMapper.readValue(createResult.response.contentAsString, UserAnimeResponseDTO::class.java)
 
         // Update the record
         val updateDto = UserAnimeUpdateDTO(
@@ -131,7 +133,8 @@ class UserAnimeControllerTests(
         )
         val updateResult = mvc.updateUserAnime(objectMapper, updateDto, createdRecord.id)
         updateResult.response.status shouldBe HttpStatus.OK.value()
-        val updatedRecord = objectMapper.readValue(updateResult.response.contentAsString, UserAnimeResponseDTO::class.java)
+        val updatedRecord =
+            objectMapper.readValue(updateResult.response.contentAsString, UserAnimeResponseDTO::class.java)
         updatedRecord.status shouldBe UserAnimeStatus.COMPLETED
         updatedRecord.rating shouldBe 9.0
         updatedRecord.episodesWatched shouldBe 24
@@ -148,7 +151,8 @@ class UserAnimeControllerTests(
         )
         val createResult = mvc.createUserAnime(objectMapper, createDto)
         createResult.response.status shouldBe HttpStatus.CREATED.value()
-        val createdRecord = objectMapper.readValue(createResult.response.contentAsString, UserAnimeResponseDTO::class.java)
+        val createdRecord =
+            objectMapper.readValue(createResult.response.contentAsString, UserAnimeResponseDTO::class.java)
 
         val deleteResult = mvc.deleteUserAnime(createdRecord.id)
         deleteResult.response.status shouldBe HttpStatus.NO_CONTENT.value()

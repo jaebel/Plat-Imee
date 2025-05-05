@@ -10,17 +10,16 @@ import org.springframework.stereotype.Service
 @Service
 class CustomUserDetailsService(private val userRepository: UserRepository) : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
-        // Load user from the database using your UserRepository.
-        // Ensure your User entity contains the username and the encoded password.
+        // Load user from the database using my UserRepository
+        // Ensure the User entity contains the username and the encoded password
         val userEntity = userRepository.findByUsername(username)
             ?: throw UsernameNotFoundException("User not found with username: $username")
 
-        // Build and return a UserDetails object using Spring Security's User class.
-        // Here, we assume no specific authorities; adjust if you have roles/authorities.
+        // Build and return a UserDetails object using Spring Security's User class
         return User(
             userEntity.username,
             userEntity.password,
-            emptyList() // Optionally, set granted authorities if needed
+            emptyList()
         )
     }
 }
