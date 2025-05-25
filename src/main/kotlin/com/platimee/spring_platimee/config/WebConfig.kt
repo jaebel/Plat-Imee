@@ -11,7 +11,10 @@ class WebConfig : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/api/**")
-            .allowedOrigins("http://localhost:3000")
+            .allowedOrigins(
+                "http://localhost:3000",                     // development
+                "https://plat-imee-frontend.onrender.com"         // example Render URL
+            )
             .allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS")
             .allowedHeaders("*")
             .allowCredentials(true)
