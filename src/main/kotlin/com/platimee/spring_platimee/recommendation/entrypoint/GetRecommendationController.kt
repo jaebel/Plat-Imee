@@ -6,6 +6,7 @@ import com.platimee.spring_platimee.users.repository.UserRepository
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,7 +18,9 @@ import java.nio.charset.StandardCharsets
 @RestController
 class GetRecommendationController(
     private val getRecommendationService: GetRecommendationService,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    @Value("\${JWT_SECRET}")
+    private val secretKey: String
 ) {
 
     // GET recommendations for a given user ID (explicit)
@@ -42,7 +45,6 @@ class GetRecommendationController(
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
         }
         val token = authHeader.substring(7)
-        val secretKey = "ThisIsMy32CharMinimumLengthSecret!"
         val claims = Jwts.parserBuilder()
             .setSigningKey(Keys.hmacShaKeyFor(secretKey.toByteArray(StandardCharsets.UTF_8)))
             .build()

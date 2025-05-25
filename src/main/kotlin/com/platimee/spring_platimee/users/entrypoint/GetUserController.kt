@@ -7,17 +7,22 @@ import com.platimee.spring_platimee.users.service.GetUserService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.nio.charset.StandardCharsets
 
 @RestController
-class GetUserController(private val getUserService: GetUserService, private val userRepository: UserRepository) {
+class GetUserController(
+    private val getUserService: GetUserService,
+    private val userRepository: UserRepository,
+    @Value("\${JWT_SECRET}")
+    private val secretKey: String
+) {
 
     // GET all users
     @GetMapping(
@@ -53,7 +58,6 @@ class GetUserController(private val getUserService: GetUserService, private val 
 
         // Parse the JWT token to extract the subject (username)
         // Use the same secret key used in token generation
-        val secretKey = "ThisIsMy32CharMinimumLengthSecret!"
         val claims = Jwts.parserBuilder()
             .setSigningKey(Keys.hmacShaKeyFor(secretKey.toByteArray(StandardCharsets.UTF_8)))
             .build()

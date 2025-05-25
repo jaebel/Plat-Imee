@@ -8,7 +8,8 @@ import java.nio.charset.StandardCharsets
 import java.util.Date
 
 object JwtUtil {
-    private const val SECRET_KEY = "ThisIsMy32CharMinimumLengthSecret!"
+    // Use environment variable for the secret key
+    private val SECRET_KEY: String = System.getenv("JWT_SECRET") ?: "fallback-secret-key"
     private const val EXPIRATION_TIME = 86400000L // 1 day
 
     fun generateToken(username: String): String {

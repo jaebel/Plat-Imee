@@ -17,7 +17,7 @@ class GetRecommendationService(
     private val logger = LoggerFactory.getLogger(GetRecommendationService::class.java)
 
     // Hardcoded URL for the recommendation service
-    private val recommendationServiceUrl: String = "http://localhost:5000"
+    private val recommendationServiceUrl: String = "https://plat-imee-recommender.onrender.com"
 
     fun getRecommendations(userId: Long, safeSearch: Boolean = false): List<RecResponseDTO> {
         logger.info("Starting to get recommendations for user: {} (safeSearch = {})", userId, safeSearch)

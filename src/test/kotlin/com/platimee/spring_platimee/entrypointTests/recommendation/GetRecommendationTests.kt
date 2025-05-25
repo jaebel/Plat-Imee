@@ -11,8 +11,8 @@ import org.springframework.http.MediaType
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.client.MockRestServiceServer
-import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
 import org.springframework.test.web.client.match.MockRestRequestMatchers.method
+import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
 import org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.web.client.RestTemplate
@@ -26,6 +26,9 @@ class GetRecommendationTests(
     val restTemplate: RestTemplate
 ) : IntegrationTestSpec({
 
+    val recommendationServiceBaseUrl = "https://plat-imee-recommender.onrender.com"
+//    val recommendationServiceBaseUrl = "http://localhost:5000" // OLD METHOD
+
     beforeEach {
         clearAllMocks()
     }
@@ -36,7 +39,7 @@ class GetRecommendationTests(
             RecResponseDTO(malId = 102L)
         )
         val jsonResponse = objectMapper.writeValueAsString(dummyRecommendations)
-        val expectedUrl = "http://localhost:5000/api/recommendations"
+        val expectedUrl = "$recommendationServiceBaseUrl/api/recommendations"
 
         // Set up the MockRestServiceServer to simulate the external recommendation service
         val mockServer = MockRestServiceServer.createServer(restTemplate)
@@ -64,7 +67,7 @@ class GetRecommendationTests(
         )
         val jsonResponse = objectMapper.writeValueAsString(dummyRecommendations)
         // I may change expected url to something else hence the name
-        val expectedUrl = "http://localhost:5000/api/recommendations"
+        val expectedUrl = "$recommendationServiceBaseUrl/api/recommendations"
 
         // Set up the MockRestServiceServer to simulate the external service
         val mockServer = MockRestServiceServer.createServer(restTemplate)
