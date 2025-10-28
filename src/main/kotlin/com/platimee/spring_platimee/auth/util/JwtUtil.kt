@@ -9,7 +9,7 @@ import java.util.Date
 
 object JwtUtil {
     // Use environment variable for the secret key
-    private val SECRET_KEY: String = System.getenv("JWT_SECRET") ?: "fallback-secret-key"
+    private val SECRET_KEY: String = System.getenv("JWT_SECRET")
     private const val EXPIRATION_TIME = 86400000L // 1 day
 
     fun generateToken(username: String): String {
@@ -25,6 +25,8 @@ object JwtUtil {
             .compact()
     }
 
+    // Spring security basically has token validation as a feature
+    // if you use Authentication as an argument to controller functions and call .name to get the subject
     fun validateToken(token: String): String? {
         return try {
             val keyBytes = SECRET_KEY.toByteArray(StandardCharsets.UTF_8)

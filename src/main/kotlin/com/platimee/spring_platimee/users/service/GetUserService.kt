@@ -7,7 +7,9 @@ import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 
 @Service
-class GetUserService(private val userRepository: UserRepository) {
+class GetUserService(
+    private val userRepository: UserRepository
+) {
 
     fun getAll(): List<UserResponseDTO> {
         val users = userRepository.findAll()
@@ -20,6 +22,12 @@ class GetUserService(private val userRepository: UserRepository) {
     fun getById(userId: Long): UserResponseDTO {
         val user = userRepository.findByUserId(userId)
             ?: throw EntityNotFoundException("User with ID $userId not found")
+        return UserDtoMapper.toResponseDto(user)
+    }
+
+    fun getCurrentUserByToken(token: String): UserResponseDTO? {
+        val username = JwtUtil.validateToken(token) ?: return null
+        val user = userRepository.findByUsername(username) ?: return null
         return UserDtoMapper.toResponseDto(user)
     }
 }

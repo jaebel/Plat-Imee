@@ -14,11 +14,20 @@ class UpdateUserService(private val userRepository: UserRepository) {
 
     // @Transactional
     fun updateUser(userId: Long, userUpdateRequest: UserUpdateDTO, authenticatedUsername: String): UserResponseDTO {
+        val currentPassword = userUpdateRequest.currentPassword
+        if (currentPassword.isNullOrBlank()) {
+            throw IllegalArgumentException("Current password is required to update your profile.")
+        }
+
         val user = userRepository.findById(userId)
             .orElseThrow { EntityNotFoundException("User with ID $userId not found") }
 
         if (user.username != authenticatedUsername) {
             throw AccessDeniedException("You are not authorized to update this profile")
+        }
+
+        if (!BCryptPasswordEncoder().matches(currentPassword, user.password)) {
+            throw IllegalArgumentException("Incorrect current password.")
         }
 
         userUpdateRequest.email?.let { user.email = it }

@@ -18,13 +18,9 @@ import java.nio.charset.StandardCharsets
 
 @RestController
 class GetUserController(
-    private val getUserService: GetUserService,
-    private val userRepository: UserRepository,
-    @Value("\${JWT_SECRET}")
-    private val secretKey: String
+    private val getUserService: GetUserService
 ) {
 
-    // GET all users
     @GetMapping(
         path = ["/api/v1/users"],
         produces = [MediaType.APPLICATION_JSON_VALUE]
@@ -44,9 +40,10 @@ class GetUserController(
         return ResponseEntity.status(HttpStatus.OK).body(user)
     }
 
+    // NOTE: that this endpoint demonstrates manual JWT validation using JwtUtil
+    // It could handle token validation with spring security instead (it would be cleaner)
     @GetMapping("/api/v1/users/me")
     fun getCurrentUser(request: HttpServletRequest): ResponseEntity<UserResponseDTO> {
-        // Retrieve the Authorization header from the request
         val authHeader = request.getHeader("Authorization")
             ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
 
@@ -54,24 +51,11 @@ class GetUserController(
         if (!authHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
         }
+
         val token = authHeader.substring(7)
+        val userResponse = getUserService.getCurrentUserByToken(token)
+            ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
 
-        // Parse the JWT token to extract the subject (username)
-        // Use the same secret key used in token generation
-        val claims = Jwts.parserBuilder()
-            .setSigningKey(Keys.hmacShaKeyFor(secretKey.toByteArray(StandardCharsets.UTF_8)))
-            .build()
-            .parseClaimsJws(token)
-            .body
-
-        val username = claims.subject
-
-        // Retrieve the user from the database using the username.
-        val user = userRepository.findByUsername(username)
-            ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-
-        // Map the user entity to a response DTO and return.
-        val userResponse = UserDtoMapper.toResponseDto(user)
         return ResponseEntity.ok(userResponse)
     }
 }

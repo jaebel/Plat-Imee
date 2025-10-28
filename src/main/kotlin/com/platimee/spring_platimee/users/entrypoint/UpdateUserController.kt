@@ -21,11 +21,16 @@ class UpdateUserController(private val updateUserService: UpdateUserService) {
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun updateUserById(@PathVariable userId: Long, @Valid @RequestBody userUpdateRequest: UserUpdateDTO, authentication: Authentication): ResponseEntity<UserResponseDTO> {
+    fun updateUserById(
+        @PathVariable userId: Long,
+        @Valid @RequestBody userUpdateRequest: UserUpdateDTO,
+        authentication: Authentication
+    ): ResponseEntity<UserResponseDTO> {
         val updatedUser = updateUserService.updateUser(userId, userUpdateRequest, authentication.name)
         return ResponseEntity.status(HttpStatus.OK).body(updatedUser)
     }
-
 }
 
+// NOTE: Updating usernames is not currently possible because they are the subject of authentication tokens
+// If I update a username then the users token would no longer be valid and i'd have to force a logout and re-login
 //TODO globalise the paths

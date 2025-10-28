@@ -47,3 +47,5 @@ out/
 /src/main/resources/animeDatasource/*.csv
 *.csv
 
+# Ignore environment variables
+.env*

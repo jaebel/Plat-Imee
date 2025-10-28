@@ -13,4 +13,11 @@ class DeleteUserService(private val userRepository: UserRepository) {
 
         userRepository.delete(user)
     }
+
+    fun deleteCurrentUserByToken(username: String) {
+        val user = userRepository.findByUsername(username)
+            ?: throw EntityNotFoundException("User not found")
+
+        userRepository.delete(user)
+    }
 }

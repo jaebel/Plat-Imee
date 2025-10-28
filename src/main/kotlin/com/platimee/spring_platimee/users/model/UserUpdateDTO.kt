@@ -26,6 +26,7 @@ data class UserUpdateDTO(
         regexp = "^(?!.*\\s)(?=.*[A-Za-z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{8,}$",
         message = "Password must contain at least one letter, one number, one special character, and must not contain spaces."
     )
-    val password: String? = null
-)
+    val password: String? = null,
 
+    val currentPassword: String? = null
+)

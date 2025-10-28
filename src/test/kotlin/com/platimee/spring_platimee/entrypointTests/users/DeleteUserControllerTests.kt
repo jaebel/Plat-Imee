@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.core.env.Environment
 import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user
 
 @AutoConfigureMockMvc
 class DeleteUserControllerTests(
@@ -26,7 +28,6 @@ class DeleteUserControllerTests(
     // Happy path
 
     test("Can delete existing user") {
-        // Given: Create a new user
         val testUser = UserCreateDTO("UserToDelete", "UserToDelete@gmail.com", "Test", "User", "TestPassword1&")
 
         // Creating the user
@@ -45,6 +46,20 @@ class DeleteUserControllerTests(
         deleteAgainResult.response.status shouldBe HttpStatus.NOT_FOUND.value()
         deleteAgainResult.response.contentAsString shouldContain "User with ID ${responseAsUser.userId} not found"
     }
+
+    test("Authenticated user can delete their own account via /me") {
+        val testUser = UserCreateDTO("UserDeleteMe", "userdeleteme@gmail.com", "First", "Last", "TestPassword1&")
+        val createResult = mvc.createUser(objectMapper, testUser)
+
+        // First deletion should succeed
+        val deleteResult = mvc.deleteCurrentUser(testUser.username)
+        deleteResult.response.status shouldBe HttpStatus.NO_CONTENT.value()
+
+        // Second deletion should return NOT FOUND
+        val deleteAgainResult = mvc.deleteCurrentUser(testUser.username)
+        deleteAgainResult.response.status shouldBe HttpStatus.NOT_FOUND.value()
+    }
+
 
     // Sad paths
 

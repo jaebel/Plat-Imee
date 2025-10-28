@@ -44,6 +44,7 @@ class JwtAuthenticationFilter(
             val authentication = UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.authorities
             )
+            // This line attaches some meta data that Plat-Imee doesn't really utilise
             authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
             SecurityContextHolder.getContext().authentication = authentication
         }

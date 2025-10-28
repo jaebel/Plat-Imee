@@ -72,3 +72,5 @@ class GetUserControllerTests(
     }
 
 })
+
+// TODO: Add tests for authenticated users

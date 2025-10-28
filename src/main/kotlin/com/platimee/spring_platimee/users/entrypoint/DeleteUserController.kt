@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.security.core.Authentication
 
 @RestController
 class DeleteUserController(private val deleteUserService: DeleteUserService) {
@@ -16,6 +17,9 @@ class DeleteUserController(private val deleteUserService: DeleteUserService) {
         deleteUserService.deleteUser(userId)
     }
 
+    @DeleteMapping("/api/v1/users/me")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteCurrentUser(authentication: Authentication) {
+        deleteUserService.deleteCurrentUserByToken(authentication.name)
+    }
 }
-
-//TODO globalise the paths
