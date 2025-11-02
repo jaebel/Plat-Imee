@@ -1,0 +1,29 @@
+package com.platimee.spring_platimee.auth.account.verification.model
+
+import com.platimee.spring_platimee.users.model.User
+import jakarta.persistence.*
+import java.time.LocalDateTime
+import java.util.UUID
+
+@Entity
+@Table(name = "verification_tokens")
+class VerificationToken(
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "token_id")
+    var id: Long? = null,
+
+    @Column(nullable = false, unique = true)
+    var token: String = UUID.randomUUID().toString(),
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    var user: User? = null,
+
+    @Column(nullable = false)
+    var expiryDate: LocalDateTime = LocalDateTime.now().plusHours(24),
+
+    @Column(nullable = false)
+    var used: Boolean = false
+)

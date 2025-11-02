@@ -1,9 +1,9 @@
-package com.platimee.spring_platimee.auth.service
+package com.platimee.spring_platimee.auth.login.service
 
 import JwtUtil
-import com.platimee.spring_platimee.auth.model.LoggedInUserDTO
-import com.platimee.spring_platimee.auth.model.LoginRequestDTO
-import com.platimee.spring_platimee.auth.model.LoginResponseDTO
+import com.platimee.spring_platimee.auth.login.model.LoggedInUserDTO
+import com.platimee.spring_platimee.auth.login.model.LoginRequestDTO
+import com.platimee.spring_platimee.auth.login.model.LoginResponseDTO
 import com.platimee.spring_platimee.users.repository.UserRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder

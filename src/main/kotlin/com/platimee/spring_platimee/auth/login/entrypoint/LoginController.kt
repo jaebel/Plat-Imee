@@ -1,8 +1,8 @@
-package com.platimee.spring_platimee.auth.entrypoint
+package com.platimee.spring_platimee.auth.login.entrypoint
 
-import com.platimee.spring_platimee.auth.model.LoginRequestDTO
-import com.platimee.spring_platimee.auth.model.LoginResponseDTO
-import com.platimee.spring_platimee.auth.service.LoginService
+import com.platimee.spring_platimee.auth.login.model.LoginRequestDTO
+import com.platimee.spring_platimee.auth.login.model.LoginResponseDTO
+import com.platimee.spring_platimee.auth.login.service.LoginService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType

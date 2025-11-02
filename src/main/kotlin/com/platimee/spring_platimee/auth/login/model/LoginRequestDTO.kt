@@ -1,4 +1,4 @@
-package com.platimee.spring_platimee.auth.model
+package com.platimee.spring_platimee.auth.login.model
 
 import jakarta.validation.constraints.NotBlank
 

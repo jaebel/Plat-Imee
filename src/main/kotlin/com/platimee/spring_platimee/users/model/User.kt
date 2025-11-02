@@ -35,5 +35,8 @@ class User(
 
     @Column(name = "updated_date")
     @LastModifiedDate
-    var updatedDate: Instant = Instant.now()
+    var updatedDate: Instant = Instant.now(),
+
+    @Column(name = "is_verified", nullable = false)
+    var isVerified: Boolean = false
 )

@@ -1,4 +1,4 @@
-package com.platimee.spring_platimee.auth.model
+package com.platimee.spring_platimee.auth.login.model
 
 data class LoginResponseDTO(
     val token: String,

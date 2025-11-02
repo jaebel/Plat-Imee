@@ -1,5 +1,7 @@
 package com.platimee.spring_platimee.users.service
 
+import com.platimee.spring_platimee.auth.account.verification.email.MailService
+import com.platimee.spring_platimee.auth.account.verification.service.VerificationService
 import com.platimee.spring_platimee.users.expections.UserAlreadyExistsException
 import com.platimee.spring_platimee.users.model.UserCreateDTO
 import com.platimee.spring_platimee.users.model.UserDtoMapper
@@ -12,7 +14,11 @@ import org.springframework.transaction.annotation.Transactional
 
 
 @Service
-class CreateUserService(private val userRepository: UserRepository) {
+class CreateUserService(
+    private val userRepository: UserRepository,
+    private val verificationService: VerificationService,
+    private val mailService: MailService
+) {
 
     private val logger = LoggerFactory.getLogger(CreateUserService::class.java)
 
@@ -28,11 +34,15 @@ class CreateUserService(private val userRepository: UserRepository) {
             throw UserAlreadyExistsException("User with email '${userDTO.email}' already exists.")
         }
 
-        //val user = UserDtoMapper.toEntity(userDTO)
         val user = UserDtoMapper.toEntity(userDTO.copy(password = BCryptPasswordEncoder().encode(userDTO.password)))
 
         val savedUser = userRepository.save(user)
         logger.info("User created successfully: ${savedUser.userId}")
+
+        // create verification token and send verification email
+        val token = verificationService.createVerificationToken(savedUser.userId!!)
+        mailService.sendVerificationEmail(savedUser.email, token.token)
+        logger.info("Verification email sent to ${savedUser.email}")
 
         return UserDtoMapper.toResponseDto(savedUser)
     }
