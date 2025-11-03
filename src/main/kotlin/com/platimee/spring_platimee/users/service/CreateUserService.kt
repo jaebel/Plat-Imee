@@ -2,7 +2,7 @@ package com.platimee.spring_platimee.users.service
 
 import com.platimee.spring_platimee.auth.account.verification.email.MailService
 import com.platimee.spring_platimee.auth.account.verification.service.VerificationService
-import com.platimee.spring_platimee.users.expections.UserAlreadyExistsException
+import com.platimee.spring_platimee.users.exceptions.UserAlreadyExistsException
 import com.platimee.spring_platimee.users.model.UserCreateDTO
 import com.platimee.spring_platimee.users.model.UserDtoMapper
 import com.platimee.spring_platimee.users.model.UserResponseDTO

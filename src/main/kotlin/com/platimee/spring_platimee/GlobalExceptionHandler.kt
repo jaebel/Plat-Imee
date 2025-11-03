@@ -1,7 +1,8 @@
 package com.platimee.spring_platimee
 
 import com.platimee.spring_platimee.anime.exceptions.AnimeAlreadyExistsException
-import com.platimee.spring_platimee.users.expections.UserAlreadyExistsException
+import com.platimee.spring_platimee.auth.account.verification.exceptions.RateLimitException
+import com.platimee.spring_platimee.users.exceptions.UserAlreadyExistsException
 import jakarta.persistence.EntityNotFoundException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -50,6 +51,11 @@ class GlobalExceptionHandler {
     fun handleGenericException(ex: Exception): ResponseEntity<String> {
         logger.error("Unexpected error occurred", ex) // Log unexpected errors
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.")
+    }
+
+    @ExceptionHandler(RateLimitException::class)
+    fun handleRateLimitException(ex: RateLimitException): ResponseEntity<String> {
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(ex.message)
     }
 
 }

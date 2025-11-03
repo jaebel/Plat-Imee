@@ -25,5 +25,8 @@ class VerificationToken(
     var expiryDate: LocalDateTime = LocalDateTime.now().plusHours(24),
 
     @Column(nullable = false)
-    var used: Boolean = false
+    var used: Boolean = false,
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    var createdAt: LocalDateTime = LocalDateTime.now()
 )

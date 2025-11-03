@@ -8,4 +8,5 @@ import java.util.Optional
 interface VerificationTokenRepository : JpaRepository<VerificationToken, Long> {
     fun findByToken(token: String): VerificationToken?
     fun deleteByUser(user: User)
+    fun findTopByUserOrderByCreatedAtDesc(user: User): VerificationToken?
 }

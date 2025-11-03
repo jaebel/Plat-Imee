@@ -1,6 +1,7 @@
 package com.platimee.spring_platimee.auth.account.verification.service
 
 import com.platimee.spring_platimee.auth.account.verification.email.MailService
+import com.platimee.spring_platimee.auth.account.verification.exceptions.RateLimitException
 import com.platimee.spring_platimee.auth.account.verification.model.VerificationToken
 import com.platimee.spring_platimee.auth.account.verification.repository.VerificationTokenRepository
 import com.platimee.spring_platimee.users.repository.UserRepository
@@ -16,10 +17,17 @@ class VerificationService(
     private val mailService: MailService
 ) {
 
+    private val cooldownMinutes = 1L  // user can only request a new email every 1 minute
+
     @Transactional
     fun createVerificationToken(userId: Long): VerificationToken {
         val user = userRepository.findByUserId(userId)
             ?: throw IllegalArgumentException("User not found")
+
+        val recentToken = tokenRepository.findTopByUserOrderByCreatedAtDesc(user)
+        if (recentToken != null && recentToken.createdAt.isAfter(LocalDateTime.now().minusMinutes(cooldownMinutes))) {
+            throw RateLimitException("Too many requests — please wait before trying again.")
+        }
 
         tokenRepository.deleteByUser(user)
 
