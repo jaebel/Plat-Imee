@@ -22,6 +22,10 @@ class LoginService(private val userRepository: UserRepository) {
             throw IllegalArgumentException("Invalid password")
         }
 
+        if (!user.isVerified) {
+            throw IllegalStateException("Account not verified for user ${user.userId} with email: ${user.email} - user cannot login")
+        }
+
         // Generate JWT token for the authenticated user
         val token = JwtUtil.generateToken(user.username)
 

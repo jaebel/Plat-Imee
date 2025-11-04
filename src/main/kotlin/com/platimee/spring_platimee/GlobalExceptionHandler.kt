@@ -58,4 +58,10 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(ex.message)
     }
 
+    @ExceptionHandler(IllegalStateException::class)
+    fun handleUnverifiedAccount(ex: IllegalStateException): ResponseEntity<Map<String, String>> {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            .body(mapOf("message" to ex.message!!))
+    }
+
 }
