@@ -1,20 +1,16 @@
-package com.platimee.spring_platimee.auth.account.verification.service
+package com.platimee.spring_platimee.auth.account.verification
 
-import com.platimee.spring_platimee.auth.account.verification.email.MailService
-import com.platimee.spring_platimee.auth.account.verification.exceptions.RateLimitException
-import com.platimee.spring_platimee.auth.account.verification.model.VerificationToken
-import com.platimee.spring_platimee.auth.account.verification.repository.VerificationTokenRepository
+import com.platimee.spring_platimee.auth.account.exceptions.RateLimitException
 import com.platimee.spring_platimee.users.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 @Service
 class VerificationService(
     private val tokenRepository: VerificationTokenRepository,
     private val userRepository: UserRepository,
-    private val mailService: MailService
 ) {
 
     private val cooldownMinutes = 1L  // user can only request a new email every 1 minute
@@ -58,7 +54,9 @@ class VerificationService(
             ?: throw IllegalStateException("Token has no associated user")
 
         user.isVerified = true
-        token.used = true
+        token.used = true // this probably isn't needed since it gets deleted after
+
+        tokenRepository.deleteByUser(user) // delete token after use
 
         return "Account verified successfully."
     }

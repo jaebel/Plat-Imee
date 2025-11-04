@@ -1,7 +1,7 @@
-package com.platimee.spring_platimee.auth.account.verification.entrypoint
+package com.platimee.spring_platimee.auth.account.verification
 
-import com.platimee.spring_platimee.auth.account.verification.email.MailService
-import com.platimee.spring_platimee.auth.account.verification.service.VerificationService
+import com.platimee.spring_platimee.auth.account.email.MailService
+import com.platimee.spring_platimee.auth.account.verification.VerificationService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

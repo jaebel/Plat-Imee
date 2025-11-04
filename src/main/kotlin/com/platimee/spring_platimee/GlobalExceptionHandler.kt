@@ -1,7 +1,7 @@
 package com.platimee.spring_platimee
 
 import com.platimee.spring_platimee.anime.exceptions.AnimeAlreadyExistsException
-import com.platimee.spring_platimee.auth.account.verification.exceptions.RateLimitException
+import com.platimee.spring_platimee.auth.account.exceptions.RateLimitException
 import com.platimee.spring_platimee.users.exceptions.UserAlreadyExistsException
 import jakarta.persistence.EntityNotFoundException
 import org.slf4j.LoggerFactory

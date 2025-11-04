@@ -1,14 +1,14 @@
-package com.platimee.spring_platimee.auth.account.verification.repository
+package com.platimee.spring_platimee.auth.account.verification
 
-import com.platimee.spring_platimee.auth.account.verification.model.VerificationToken
 import com.platimee.spring_platimee.users.model.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
+import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
-import java.util.Optional
 
+@Repository // spring-boot-starter-data-jpa autoconfigures so we don't actually need this annotation
 interface VerificationTokenRepository : JpaRepository<VerificationToken, Long> {
     fun findByToken(token: String): VerificationToken?
     fun deleteByUser(user: User)
