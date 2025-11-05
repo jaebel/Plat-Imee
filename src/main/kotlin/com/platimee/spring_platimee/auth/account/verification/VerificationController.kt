@@ -25,8 +25,9 @@ class VerificationController(
     }
 
     @GetMapping("/verify")
-    fun confirmVerification(@RequestParam token: String): ResponseEntity<String> {
+    fun confirmVerification(@RequestParam token: String): ResponseEntity<Map<String, String>> {
         val result = verificationService.verifyAccount(token)
-        return ResponseEntity.ok(result)
+        return ResponseEntity.ok(mapOf("message" to result))
+
     }
 }

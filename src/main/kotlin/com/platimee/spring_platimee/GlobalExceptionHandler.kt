@@ -64,4 +64,10 @@ class GlobalExceptionHandler {
             .body(mapOf("message" to ex.message!!))
     }
 
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleIllegalArgumentException(ex: IllegalArgumentException): ResponseEntity<Map<String, String>> {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(mapOf("message" to (ex.message ?: "Invalid request.")))
+    }
+
 }

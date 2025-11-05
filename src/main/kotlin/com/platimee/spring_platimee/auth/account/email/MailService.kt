@@ -12,7 +12,8 @@ class MailService(
 
     // Send account verification email
     fun sendVerificationEmail(recipientEmail: String, token: String) {
-        val verificationLink = "http://localhost:8080/api/v1/users/verify?token=$token"
+//        val verificationLink = "http://localhost:8080/api/v1/users/verify?token=$token"
+        val verificationLink = "http://localhost:3000/verify?token=$token"
         val subject = "Platimee — Verify Your Account"
         val htmlContent = """
             <html>
