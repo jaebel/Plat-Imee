@@ -7,8 +7,8 @@ COPY . .
 # Run full build including tests
 RUN gradle clean build --no-daemon
 
-# 1. Use a minimal JDK 21 image for the final runtime
-FROM openjdk:21-jdk-slim-bullseye
+# 1. Use a JDK 21 image for the final runtime
+FROM openjdk:21-jdk
 
 # 2. Set working directory in the container
 WORKDIR /app
