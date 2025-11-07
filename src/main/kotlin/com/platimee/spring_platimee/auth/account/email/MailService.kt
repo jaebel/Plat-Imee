@@ -1,19 +1,21 @@
 package com.platimee.spring_platimee.auth.account.email
 
 import jakarta.mail.internet.MimeMessage
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
 
 @Service
 class MailService(
-    private val mailSender: JavaMailSender
+    private val mailSender: JavaMailSender,
+    @Value("\${FRONTEND_URL}")
+    private val frontendUrl: String
 ) {
 
     // Send account verification email
     fun sendVerificationEmail(recipientEmail: String, token: String) {
-//        val verificationLink = "http://localhost:8080/api/v1/users/verify?token=$token"
-        val verificationLink = "http://localhost:3000/verify?token=$token"
+        val verificationLink = "$frontendUrl/verify?token=$token"
         val subject = "Platimee — Verify Your Account"
         val htmlContent = """
             <html>
@@ -36,8 +38,7 @@ class MailService(
 
     // Send password reset email
     fun sendPasswordResetEmail(recipientEmail: String, token: String) {
-//        val resetLink = "http://localhost:8080/api/v1/password/reset?token=$token"
-        val resetLink = "http://localhost:3000/reset-password?token=$token"
+        val resetLink = "$frontendUrl/reset-password?token=$token"
 
         val subject = "Platimee — Reset Your Password"
         val htmlContent = """
