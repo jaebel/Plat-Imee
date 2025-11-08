@@ -2,6 +2,7 @@ package com.platimee.spring_platimee.users.model
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
 
@@ -28,5 +29,6 @@ data class UserUpdateDTO(
     )
     val password: String? = null,
 
-    val currentPassword: String? = null
+    @field:NotBlank(message = "Current password is required to update the account.")
+    val currentPassword: String
 )

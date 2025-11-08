@@ -3,10 +3,12 @@ package com.platimee.spring_platimee.users.service
 import com.platimee.spring_platimee.users.repository.UserRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class DeleteUserService(private val userRepository: UserRepository) {
 
+    @Transactional
     fun deleteUser(userId: Long) {
         val user = userRepository.findById(userId)
             .orElseThrow { EntityNotFoundException("User with ID $userId not found") }
@@ -14,10 +16,10 @@ class DeleteUserService(private val userRepository: UserRepository) {
         userRepository.delete(user)
     }
 
+    @Transactional
     fun deleteCurrentUserByToken(username: String) {
         val user = userRepository.findByUsername(username)
-            ?: throw EntityNotFoundException("User not found")
-
+            ?: return
         userRepository.delete(user)
     }
 }

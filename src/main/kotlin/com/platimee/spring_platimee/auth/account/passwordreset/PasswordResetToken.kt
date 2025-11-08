@@ -1,6 +1,7 @@
 package com.platimee.spring_platimee.auth.account.passwordreset
 
 import com.platimee.spring_platimee.users.model.User
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -25,7 +26,7 @@ class PasswordResetToken(
     @Column(nullable = false, unique = true)
     var token: String = UUID.randomUUID().toString(),
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id", nullable = false)
     var user: User? = null,
 

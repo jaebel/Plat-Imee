@@ -55,9 +55,9 @@ class DeleteUserControllerTests(
         val deleteResult = mvc.deleteCurrentUser(testUser.username)
         deleteResult.response.status shouldBe HttpStatus.NO_CONTENT.value()
 
-        // Second deletion should return NOT FOUND
+        // Second deletion should also return NO_CONTENT because it's idempotent
         val deleteAgainResult = mvc.deleteCurrentUser(testUser.username)
-        deleteAgainResult.response.status shouldBe HttpStatus.NOT_FOUND.value()
+        deleteAgainResult.response.status shouldBe HttpStatus.NO_CONTENT.value()
     }
 
 

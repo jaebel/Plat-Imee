@@ -35,36 +35,32 @@ internal fun MockMvc.getUser(userId: Long) : MvcResult = this.get("/api/v1/users
 
 internal fun MockMvc.getAllUsers() : MvcResult = this.get("/api/v1/users").andReturn()
 
+// In these tests, we don’t actually log in or generate a JWT.
+// Instead, we simulate an already-authenticated by having this fulfil the
+// 'authentication: Authentication' argument from which the endpoint only really needs it to have a name
+
+// it works because your controller uses Spring Security’s built-in mechanism. If it used the manual JWT parsing
+// as with the get endpoint then it would fail with the custom token validation method in JwtUtil,
+// and with simply manually decoding/ deconstructing the token
+
 internal fun MockMvc.updateUser(
     objectMapper: ObjectMapper,
     user: UserUpdateDTO,
     userId: Long,
-    username: String? = null,
+    username: String,
     vararg roles: String
 ): MvcResult {
     val requestBuilder =
-        // Explicitly call the Java MockMvcRequestBuilders.patch(...) method
         org.springframework.test.web.servlet.request.MockMvcRequestBuilders
             .patch("/api/v1/users/$userId")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(user))
+            .with(
+                org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors
+                    .user(username)
+                    .roles(*roles) // This isn't really relevant because plat-imee doesn't use roles at this time
+            )
 
-    // Optionally attach a mock user
-    // In these tests, we don’t actually log in or generate a JWT.
-    // Instead, we simulate an already-authenticated by having this fulfil the
-    // 'authentication: Authentication' argument from which the endpoint only really needs it to have a name
-
-    // it works because your controller uses Spring Security’s built-in mechanism. If it used the manual JWT parsing
-    // as with the get endpoint then it would fail with the custom token validation method in JwtUtil,
-    // and with simply manually decoding/ deconstructing the token
-    if (!username.isNullOrEmpty()) {
-        requestBuilder.with(
-            org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors
-                .user(username)
-                .roles(*roles) // This isn't really relevant because plat-imee doesn't use roles at this time
-        )
-    }
-
-    // Perform the request
     return this.perform(requestBuilder).andReturn()
 }
+
