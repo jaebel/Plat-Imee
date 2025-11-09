@@ -1,5 +1,6 @@
 package com.platimee.spring_platimee.users.service
 
+import JwtUtil
 import com.platimee.spring_platimee.users.model.UserDtoMapper
 import com.platimee.spring_platimee.users.model.UserResponseDTO
 import com.platimee.spring_platimee.users.repository.UserRepository

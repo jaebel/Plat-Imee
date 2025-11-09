@@ -10,7 +10,8 @@ import java.time.Instant
 class Anime(
     @Id
     @Column(name = "mal_id", unique = true, nullable = false)
-    var malId: Long,  // Now using malId as the primary key
+    // Using malId as the primary key since the datasource + Jikan API both use it
+    var malId: Long,
 
     @Column(name = "name", nullable = false)
     var name: String,
@@ -37,7 +38,6 @@ class Anime(
     @Column(name = "premiered")
     var premiered: String? = null,
 
-    // Update join column from anime_id to mal_id
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "anime_genre",

@@ -1,4 +1,3 @@
-// SecurityConfig.kt
 package com.platimee.spring_platimee.security
 
 import org.springframework.context.annotation.Bean

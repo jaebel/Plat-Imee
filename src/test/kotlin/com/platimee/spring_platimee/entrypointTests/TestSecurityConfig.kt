@@ -1,4 +1,3 @@
-// TestSecurityConfig.kt
 package com.platimee.spring_platimee.entrypointTests
 
 import org.springframework.boot.test.context.TestConfiguration

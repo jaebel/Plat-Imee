@@ -5,9 +5,9 @@ import com.platimee.spring_platimee.users.model.UserResponseDTO
 import com.platimee.spring_platimee.users.model.UserUpdateDTO
 import com.platimee.spring_platimee.users.repository.UserRepository
 import jakarta.persistence.EntityNotFoundException
+import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
-import org.springframework.security.access.AccessDeniedException
 
 @Service
 class UpdateUserService(private val userRepository: UserRepository) {

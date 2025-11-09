@@ -1,6 +1,3 @@
-// JwtUtil.kt
-//package com.platimee.spring_platimee.security
-
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys

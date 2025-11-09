@@ -1,20 +1,14 @@
 package com.platimee.spring_platimee.users.entrypoint
 
-import com.platimee.spring_platimee.users.model.UserDtoMapper
 import com.platimee.spring_platimee.users.model.UserResponseDTO
-import com.platimee.spring_platimee.users.repository.UserRepository
 import com.platimee.spring_platimee.users.service.GetUserService
-import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.security.Keys
 import jakarta.servlet.http.HttpServletRequest
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
-import java.nio.charset.StandardCharsets
 
 @RestController
 class GetUserController(

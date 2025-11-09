@@ -2,11 +2,11 @@ package com.platimee.spring_platimee.users.entrypoint
 
 import com.platimee.spring_platimee.users.service.DeleteUserService
 import org.springframework.http.HttpStatus
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.security.core.Authentication
 
 @RestController
 class DeleteUserController(private val deleteUserService: DeleteUserService) {

@@ -4,9 +4,9 @@ import com.platimee.spring_platimee.anime.model.AnimeDtoMapper
 import com.platimee.spring_platimee.anime.model.AnimeResponseDTO
 import com.platimee.spring_platimee.anime.repository.AnimeRepository
 import com.platimee.spring_platimee.anime.repository.GenreRepository
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.slf4j.LoggerFactory
 
 @Service
 class CreateAnimeService(

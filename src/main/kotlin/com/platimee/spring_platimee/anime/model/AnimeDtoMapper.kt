@@ -14,7 +14,7 @@ object AnimeDtoMapper {
             japaneseName = dto.japaneseName,
             type = dto.type,
             episodes = dto.episodes,
-            score = dto.score,         // Renamed from rating to score
+            score = dto.score,
             aired = dto.aired,
             premiered = dto.premiered,
             genres = mutableSetOf(),   // Will be set in the service layer by mapping dto.genres to Genre entities

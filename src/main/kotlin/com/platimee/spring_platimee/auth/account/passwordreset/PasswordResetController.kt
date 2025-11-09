@@ -1,9 +1,11 @@
 package com.platimee.spring_platimee.auth.account.passwordreset
 
 import com.platimee.spring_platimee.auth.account.email.MailService
-import com.platimee.spring_platimee.auth.account.passwordreset.PasswordResetService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/password")

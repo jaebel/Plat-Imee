@@ -3,7 +3,7 @@ package com.platimee.spring_platimee.anime.model
 import java.time.Instant
 
 data class AnimeResponseDTO(
-    val malId: Long,           // MAL ID from the CSV
+    val malId: Long,
     val name: String,
     val englishName: String?,
     val japaneseName: String?,

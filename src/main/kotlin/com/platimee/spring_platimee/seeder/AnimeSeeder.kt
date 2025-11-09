@@ -3,8 +3,8 @@ package com.platimee.spring_platimee.seeder
 import com.opencsv.CSVReader
 import com.platimee.spring_platimee.anime.model.Anime
 import com.platimee.spring_platimee.anime.model.AnimeType
-import com.platimee.spring_platimee.anime.repository.AnimeRepository
 import com.platimee.spring_platimee.anime.model.Genre
+import com.platimee.spring_platimee.anime.repository.AnimeRepository
 import com.platimee.spring_platimee.anime.repository.GenreRepository
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Profile

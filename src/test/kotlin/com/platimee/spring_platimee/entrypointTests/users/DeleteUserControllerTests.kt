@@ -11,8 +11,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.core.env.Environment
 import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user
 
 @AutoConfigureMockMvc
 class DeleteUserControllerTests(

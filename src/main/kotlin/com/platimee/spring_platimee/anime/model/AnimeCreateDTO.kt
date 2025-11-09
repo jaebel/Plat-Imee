@@ -15,7 +15,6 @@ data class AnimeCreateDTO(
     @field:Size(min = 2, max = 255, message = "Anime name must be between 2 and 255 characters.")
     val name: String,
 
-    // I may or maynot need this
     val englishName: String? = null,
     val japaneseName: String? = null,
 
@@ -36,7 +35,7 @@ data class AnimeCreateDTO(
     val aired: String? = null,
     val premiered: String? = null,
 
-    // Adding genres as a list of genre IDs (not comma-separated string here)
+    // Adding genres as a list of genre IDs
     @field:NotNull(message = "Genres must be specified.")
     val genres: List<Long>
 )

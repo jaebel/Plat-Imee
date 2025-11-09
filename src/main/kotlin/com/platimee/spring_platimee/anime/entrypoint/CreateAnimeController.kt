@@ -3,9 +3,6 @@ package com.platimee.spring_platimee.anime.entrypoint
 import com.platimee.spring_platimee.anime.model.AnimeCreateDTO
 import com.platimee.spring_platimee.anime.model.AnimeResponseDTO
 import com.platimee.spring_platimee.anime.service.CreateAnimeService
-import com.platimee.spring_platimee.users.model.UserCreateDTO
-import com.platimee.spring_platimee.users.model.UserResponseDTO
-import com.platimee.spring_platimee.users.service.CreateUserService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.platimee.spring_platimee.anime.model.Anime
 import com.platimee.spring_platimee.anime.repository.AnimeRepository
 import com.platimee.spring_platimee.anime.repository.GenreRepository
-import com.platimee.spring_platimee.useranime.model.*
+import com.platimee.spring_platimee.useranime.model.UserAnimeCreateDTO
+import com.platimee.spring_platimee.useranime.model.UserAnimeDtoMapper
+import com.platimee.spring_platimee.useranime.model.UserAnimeResponseDTO
 import com.platimee.spring_platimee.useranime.repository.UserAnimeRepository
 import com.platimee.spring_platimee.users.repository.UserRepository
 import jakarta.persistence.EntityNotFoundException
