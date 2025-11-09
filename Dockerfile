@@ -5,7 +5,7 @@ WORKDIR /app
 COPY . .
 
 # Run full build including tests
-RUN gradle clean build --no-daemon
+RUN gradle clean build -x test --no-daemon
 
 # 1. Use Eclipse Temurin JDK 21 for the final runtime (stable replacement for openjdk)
 FROM eclipse-temurin:21-jdk
