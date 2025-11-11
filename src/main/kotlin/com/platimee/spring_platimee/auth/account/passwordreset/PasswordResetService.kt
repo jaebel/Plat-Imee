@@ -26,7 +26,8 @@ class PasswordResetService(
             throw RateLimitException("Too many requests — please wait before trying again.")
         }
 
-        tokenRepository.deleteByUser(user)
+        // Clear old tokens via relationship
+        user.passwordResetTokens.clear()
 
         val token = PasswordResetToken(
             token = UUID.randomUUID().toString(),
@@ -34,8 +35,9 @@ class PasswordResetService(
             expiryDate = LocalDateTime.now().plusHours(1)
         )
 
-        tokenRepository.save(token)
+        user.passwordResetTokens.add(token)
 
+        userRepository.save(user) // cascade persists token
         return token
     }
 
@@ -49,12 +51,12 @@ class PasswordResetService(
 
         val user = token.user ?: throw IllegalStateException("Token has no associated user")
 
-        // update password and mark token as used
         user.password = BCryptPasswordEncoder().encode(newPassword)
-        token.used = true
+        user.passwordResetTokens.clear() // delete all reset tokens
 
-        tokenRepository.deleteByUser(user)
+        userRepository.save(user)
 
         return "Password has been reset successfully."
     }
+
 }

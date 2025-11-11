@@ -1,5 +1,6 @@
 package com.platimee.spring_platimee.anime.model
 
+import com.platimee.spring_platimee.useranime.model.UserAnime
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -52,7 +53,11 @@ class Anime(
 
     @Column(name = "updated_date")
     @LastModifiedDate
-    var updatedDate: Instant = Instant.now()
+    var updatedDate: Instant = Instant.now(),
+
+    @OneToMany(mappedBy = "anime", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var userAnimeEntries: MutableList<UserAnime> = mutableListOf()
+
 )
 
 enum class AnimeType {

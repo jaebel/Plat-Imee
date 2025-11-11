@@ -6,7 +6,11 @@ import java.util.Date
 
 object JwtUtil {
     // Use environment variable for the secret key
-    private val SECRET_KEY: String = System.getenv("JWT_SECRET")
+    // Use lazy initialization so the secret key isn't fetched until it's actually needed - avoids errors if env vars aren't set at startup.
+    private val SECRET_KEY by lazy {
+        System.getenv("JWT_SECRET") ?: System.getProperty("JWT_SECRET")
+        ?: throw IllegalStateException("JWT_SECRET not set")
+    }
     private const val EXPIRATION_TIME = 86400000L // 1 day
 
     fun generateToken(username: String): String {

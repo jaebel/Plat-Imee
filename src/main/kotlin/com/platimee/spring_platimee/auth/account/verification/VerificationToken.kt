@@ -17,7 +17,7 @@ class VerificationToken(
     @Column(nullable = false, unique = true)
     var token: String = UUID.randomUUID().toString(),
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     var user: User? = null,
 

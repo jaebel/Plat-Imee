@@ -23,29 +23,30 @@ class VerificationService(
         val user = userRepository.findByUserId(userId)
             ?: throw IllegalArgumentException("User not found")
 
+        // Enforce rate limit
         val recentToken = tokenRepository.findTopByUserOrderByCreatedAtDesc(user)
         if (recentToken != null && recentToken.createdAt.isAfter(LocalDateTime.now().minusMinutes(cooldownMinutes))) {
             throw RateLimitException("Too many requests — please wait before trying again.")
         }
 
-        // remove any old tokens for that user
-        tokenRepository.deleteByUser(user)
+        // Remove old tokens using the relationship instead of repository delete
+        user.verificationTokens.clear()
 
+        // Create and associate new token
         val newToken = VerificationToken(
             token = UUID.randomUUID().toString(),
             user = user,
             expiryDate = LocalDateTime.now().plusHours(24)
         )
 
-        // Save and return the persisted token
-        val newAndSavedToken = tokenRepository.save(newToken)
-        logger.info(
-            "Created new verification token for user={} token={}",
-            user.email,
-            newAndSavedToken.token
-        )
-        return newAndSavedToken
+        user.verificationTokens.add(newToken)
+
+        // Persist through user, cascade will handle token
+        userRepository.save(user)
+
+        return newToken
     }
+
 
     @Transactional
     fun verifyAccount(tokenValue: String): String {

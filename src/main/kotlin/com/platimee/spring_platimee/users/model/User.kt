@@ -1,5 +1,8 @@
 package com.platimee.spring_platimee.users.model
 
+import com.platimee.spring_platimee.auth.account.passwordreset.PasswordResetToken
+import com.platimee.spring_platimee.auth.account.verification.VerificationToken
+import com.platimee.spring_platimee.useranime.model.UserAnime
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -38,5 +41,14 @@ class User(
     var updatedDate: Instant = Instant.now(),
 
     @Column(name = "is_verified", nullable = false)
-    var isVerified: Boolean = false
+    var isVerified: Boolean = false,
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var verificationTokens: MutableList<VerificationToken> = mutableListOf(),
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var passwordResetTokens: MutableList<PasswordResetToken> = mutableListOf(),
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var userAnimeList: MutableList<UserAnime> = mutableListOf()
 )
