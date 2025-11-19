@@ -28,7 +28,6 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -38,6 +37,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.7.2")
     implementation("com.opencsv:opencsv:5.7.1")
     implementation("io.github.cdimascio:dotenv-java:3.0.0")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     // Auth jwt tokens
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
