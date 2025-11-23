@@ -44,7 +44,7 @@ class UpdateAnimeControllerTests(
             episodes = 220,
             score = 8.5,
             members = 1000000,
-            genres = listOf(1, 2)
+            genres = listOf("Action", "Adventure")
         )
 
         val result = mvc.createAnime(objectMapper, testAnime)
@@ -61,7 +61,7 @@ class UpdateAnimeControllerTests(
             episodes = 24,
             score = 8.8,
             members = 10000,
-            genres = listOf(1)
+            genres = listOf("Action")
         )
 
         val updateResult = mvc.updateAnime(objectMapper, updatedAnime, responseAsAnime.malId)

@@ -37,5 +37,5 @@ data class AnimeCreateDTO(
 
     // Adding genres as a list of genre IDs
     @field:NotNull(message = "Genres must be specified.")
-    val genres: List<Long>
+    val genres: List<String>
 )

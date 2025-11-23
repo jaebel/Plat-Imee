@@ -1,7 +1,9 @@
 package com.platimee.spring_platimee.anime.service
 
+import com.platimee.spring_platimee.anime.model.AnimeCreateDTO
 import com.platimee.spring_platimee.anime.model.AnimeDtoMapper
 import com.platimee.spring_platimee.anime.model.AnimeResponseDTO
+import com.platimee.spring_platimee.anime.model.Genre
 import com.platimee.spring_platimee.anime.repository.AnimeRepository
 import com.platimee.spring_platimee.anime.repository.GenreRepository
 import org.slf4j.LoggerFactory
@@ -17,17 +19,28 @@ class CreateAnimeService(
     private val logger = LoggerFactory.getLogger(CreateAnimeService::class.java)
 
     @Transactional
-    fun addAnime(animeCreateDTO: com.platimee.spring_platimee.anime.model.AnimeCreateDTO): AnimeResponseDTO {
-        // Fetch Genre entities based on the provided IDs.
-        val genres = genreRepository.findAllById(animeCreateDTO.genres.toSet())
+    fun addAnime(animeCreateDTO: AnimeCreateDTO): AnimeResponseDTO {
 
-        // Map DTO to entity.
+        // Fetch genres that already exist
+        var genres = genreRepository.findByNameIn(animeCreateDTO.genres)
+
+        // Find which names were NOT returned
+        val existingNames = genres.map { it.name }.toSet()
+        val missingNames = animeCreateDTO.genres.filter { it !in existingNames }
+
+        // Create genres for missing names
+        if (missingNames.isNotEmpty()) {
+            val newGenres = missingNames.map { Genre(name = it) }
+            genres += genreRepository.saveAll(newGenres)
+        }
+
+        // Map DTO → entity
         val anime = AnimeDtoMapper.toEntity(animeCreateDTO)
 
-        // Set the genres on the Anime entity.
+        // Attach all genres (existing + newly created)
         anime.genres.addAll(genres)
 
-        // Save the entity.
+        // Save
         val savedAnime = animeRepository.save(anime)
         logger.info("Anime created successfully: ${savedAnime.malId}")
 

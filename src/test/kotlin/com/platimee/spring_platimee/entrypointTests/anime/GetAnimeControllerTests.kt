@@ -40,7 +40,7 @@ class GetAnimeControllerTests(
             episodes = 220,
             score = 8.5,
             members = 1000000,
-            genres = listOf(1, 2)
+            genres = listOf("Action", "Adventure")
         )
         val testAnime2 = AnimeCreateDTO(
             malId = 2,
@@ -49,7 +49,7 @@ class GetAnimeControllerTests(
             episodes = 28,
             score = 8.5,
             members = 1000000,
-            genres = listOf(1, 2)
+            genres = listOf("Action", "Adventure")
         )
 
         val result1 = mvc.createAnime(objectMapper, testAnime1).response
@@ -75,7 +75,7 @@ class GetAnimeControllerTests(
             episodes = 220,
             score = 8.5,
             members = 1000000,
-            genres = listOf(1, 2)
+            genres = listOf("Action", "Adventure")
         )
         val result = mvc.createAnime(objectMapper, testAnime)
 

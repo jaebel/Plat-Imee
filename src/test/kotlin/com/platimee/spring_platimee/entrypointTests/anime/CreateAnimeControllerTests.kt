@@ -40,7 +40,7 @@ class CreateAnimeControllerTests(
             episodes = 220,
             score = 8.5,
             members = 1000000,
-            genres = listOf(1, 2)
+            genres = listOf("Action", "Adventure")
         )
 
         // When

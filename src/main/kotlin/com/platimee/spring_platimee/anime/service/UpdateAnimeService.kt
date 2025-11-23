@@ -24,8 +24,8 @@ class UpdateAnimeService(
         AnimeDtoMapper.updateEntityFromDto(anime, updateDTO)
 
         // Update genres separately if provided.
-        updateDTO.genres?.let { genreIds ->
-            val newGenres = genreRepository.findAllById(genreIds.toSet())
+        updateDTO.genres?.let { genreNames ->
+            val newGenres = genreRepository.findByNameIn(genreNames)
             anime.genres.clear()
             anime.genres.addAll(newGenres)
         }

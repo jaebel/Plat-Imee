@@ -59,7 +59,7 @@ class UserAnimeControllerTests(
             episodes = 24,
             score = 8.5,
             members = 10000,
-            genres = listOf(1L) // Assumes a genre with ID 1 exists in test DB
+            genres = listOf("Action") // Assumes a genre with ID 1 exists in test DB
         )
         val animeEntity = AnimeDtoMapper.toEntity(animeCreateDTO)
         val savedAnime = animeRepository.save(animeEntity)
